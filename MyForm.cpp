@@ -18,21 +18,20 @@ namespace university {
 
     System::Void MyForm::btnLogin_Click(System::Object^ sender, System::EventArgs^ e) {
         try {
-            String^ username = txtuserName->Text;
+            String^ email = txtuserName->Text;  // We're still using txtuserName but it will contain email
             String^ password = txtPassword->Text;
 
-            if (String::IsNullOrEmpty(username) || String::IsNullOrEmpty(password)) {
-                MessageBox::Show("Please enter both username and password!", "Error",
+            if (String::IsNullOrEmpty(email) || String::IsNullOrEmpty(password)) {
+                MessageBox::Show("Please enter both email and password!", "Error",
                     MessageBoxButtons::OK, MessageBoxIcon::Warning);
                 return;
             }
 
             sqlConn->Open();
             sqlCmd->Connection = sqlConn;
-
-            sqlCmd->CommandText = "SELECT * FROM users WHERE username = @username AND password = @password;";
+            sqlCmd->CommandText = "SELECT * FROM users WHERE email = @email AND password = @password;";
             sqlCmd->Parameters->Clear();
-            sqlCmd->Parameters->AddWithValue("@username", username);
+            sqlCmd->Parameters->AddWithValue("@email", email);
             sqlCmd->Parameters->AddWithValue("@password", password);
 
             sqlRd = sqlCmd->ExecuteReader();
@@ -48,7 +47,7 @@ namespace university {
             else {
                 sqlRd->Close();
                 sqlConn->Close();
-                MessageBox::Show("Invalid username or password!", "Error",
+                MessageBox::Show("Invalid email or password!", "Error",
                     MessageBoxButtons::OK, MessageBoxIcon::Error);
             }
         }

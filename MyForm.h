@@ -91,7 +91,7 @@ namespace university {
 			this->Username->Name = L"Username";
 			this->Username->Size = System::Drawing::Size(83, 20);
 			this->Username->TabIndex = 2;
-			this->Username->Text = L"Username";
+			this->Username->Text = L"Email";
 			this->Username->Click += gcnew System::EventHandler(this, &MyForm::Username_Click);
 			// 
 			// label2

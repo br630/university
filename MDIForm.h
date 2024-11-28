@@ -90,6 +90,7 @@ namespace university {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MDIForm::typeid));
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
@@ -118,16 +119,17 @@ namespace university {
 			});
 			this->toolStrip1->Location = System::Drawing::Point(0, 33);
 			this->toolStrip1->Name = L"toolStrip1";
-			this->toolStrip1->Size = System::Drawing::Size(1198, 25);
+			this->toolStrip1->Size = System::Drawing::Size(1198, 33);
 			this->toolStrip1->TabIndex = 2;
 			this->toolStrip1->Text = L"toolStrip1";
 			// 
 			// toolStripButton1
 			// 
 			this->toolStripButton1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->toolStripButton1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton1.Image")));
 			this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton1->Name = L"toolStripButton1";
-			this->toolStripButton1->Size = System::Drawing::Size(34, 23);
+			this->toolStripButton1->Size = System::Drawing::Size(34, 28);
 			this->toolStripButton1->Text = L"toolStripButton1";
 			// 
 			// toolStripButton2
@@ -135,7 +137,7 @@ namespace university {
 			this->toolStripButton2->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
 			this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton2->Name = L"toolStripButton2";
-			this->toolStripButton2->Size = System::Drawing::Size(34, 23);
+			this->toolStripButton2->Size = System::Drawing::Size(34, 33);
 			this->toolStripButton2->Text = L"toolStripButton2";
 			// 
 			// studentsToolStripMenuItem
@@ -145,7 +147,7 @@ namespace university {
 					this->viewGradesToolStripMenuItem, this->manageProfileToolStripMenuItem, this->enrollmentToolStripMenuItem
 			});
 			this->studentsToolStripMenuItem->Name = L"studentsToolStripMenuItem";
-			this->studentsToolStripMenuItem->Size = System::Drawing::Size(97, 29);
+			this->studentsToolStripMenuItem->Size = System::Drawing::Size(97, 32);
 			this->studentsToolStripMenuItem->Text = L"Students";
 			this->studentsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::studentsToolStripMenuItem_Click);
 			// 
@@ -184,7 +186,7 @@ namespace university {
 					this->enterGradesToolStripMenuItem, this->manageCourseMaterialsToolStripMenuItem
 			});
 			this->facultyToolStripMenuItem->Name = L"facultyToolStripMenuItem";
-			this->facultyToolStripMenuItem->Size = System::Drawing::Size(82, 29);
+			this->facultyToolStripMenuItem->Size = System::Drawing::Size(82, 32);
 			this->facultyToolStripMenuItem->Text = L"Faculty";
 			// 
 			// accessClassRostersToolStripMenuItem
@@ -212,7 +214,7 @@ namespace university {
 			// 
 			this->adminToolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->viewAllUsersToolStripMenuItem });
 			this->adminToolStripMenuItem1->Name = L"adminToolStripMenuItem1";
-			this->adminToolStripMenuItem1->Size = System::Drawing::Size(81, 29);
+			this->adminToolStripMenuItem1->Size = System::Drawing::Size(81, 32);
 			this->adminToolStripMenuItem1->Text = L"Admin";
 			// 
 			// viewAllUsersToolStripMenuItem
@@ -240,6 +242,7 @@ namespace university {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
 			this->ClientSize = System::Drawing::Size(1198, 522);
 			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->menuStrip1);

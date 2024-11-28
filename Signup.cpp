@@ -1,21 +1,39 @@
+#include "MyForm.h"
 #include "Signup.h"
-#include "MDIForm.h"  
+#include "MDIForm.h"
 
-void university::Signup::btn_Signup_Click(System::Object^ sender, System::EventArgs^ e) {
+namespace university {
+    Signup::Signup(void)
+    {
+        InitializeComponent();
+        sqlConn = gcnew MySqlConnection();
+        sqlCmd = gcnew MySqlCommand();
+        connectionString = "datasource=localhost;port=3306;username=root;password=;database=university_management;";
+        sqlConn->ConnectionString = connectionString;
+
+    }
+
+    System::Void Signup::btnCancel_Click(System::Object^ sender, System::EventArgs^ e) {
+        Application::Exit();
+    }
+
+    System::Void Signup::btnSignup_Click(System::Object^ sender, System::EventArgs^ e) {
         try {
-            // Basic validation
-            if (String::IsNullOrEmpty(txt_fname->Text) ||
-                String::IsNullOrEmpty(txt_lname->Text) ||
-                String::IsNullOrEmpty(txt_Email->Text) ||
-                String::IsNullOrEmpty(txt_password->Text) ||
-                String::IsNullOrEmpty(txt_TPassword->Text)) {
+            String^ email = txtuserName->Text;
+            String^ password = txtPassword->Text;
+            String^ confirmPassword = txtPassword1->Text;
+            String^ firstName = txt_fname->Text;
+            String^ lastName = txt_lname->Text;
+
+            if (String::IsNullOrEmpty(email) || String::IsNullOrEmpty(password) ||
+                String::IsNullOrEmpty(confirmPassword) || String::IsNullOrEmpty(firstName) ||
+                String::IsNullOrEmpty(lastName)) {
                 MessageBox::Show("Please fill in all fields!", "Error",
                     MessageBoxButtons::OK, MessageBoxIcon::Warning);
                 return;
             }
 
-            // Check if passwords match
-            if (txt_password->Text != txt_TPassword->Text) {
+            if (password != confirmPassword) {
                 MessageBox::Show("Passwords do not match!", "Error",
                     MessageBoxButtons::OK, MessageBoxIcon::Warning);
                 return;
@@ -25,34 +43,34 @@ void university::Signup::btn_Signup_Click(System::Object^ sender, System::EventA
             sqlCmd->Connection = sqlConn;
 
             // Check if email already exists
-            sqlCmd->CommandText = "SELECT * FROM users WHERE username = @email";
+            sqlCmd->CommandText = "SELECT * FROM users WHERE email = @email;";
             sqlCmd->Parameters->Clear();
-            sqlCmd->Parameters->AddWithValue("@email", txt_Email->Text);
-
+            sqlCmd->Parameters->AddWithValue("@email", email);
             sqlRd = sqlCmd->ExecuteReader();
+
             if (sqlRd->Read()) {
                 sqlRd->Close();
                 MessageBox::Show("Email already registered!", "Error",
-                    MessageBoxButtons::OK, MessageBoxIcon::Warning);
+                    MessageBoxButtons::OK, MessageBoxIcon::Error);
                 return;
             }
             sqlRd->Close();
 
             // Insert new user
-            sqlCmd->CommandText = "INSERT INTO users (firstname, lastname, username, password) VALUES (@fname, @lname, @email, @password)";
+            sqlCmd->CommandText = "INSERT INTO users (email, password, firstName, lastName) VALUES (@email, @password, @firstName, @lastName);";
             sqlCmd->Parameters->Clear();
-            sqlCmd->Parameters->AddWithValue("@fname", txt_fname->Text);
-            sqlCmd->Parameters->AddWithValue("@lname", txt_lname->Text);
-            sqlCmd->Parameters->AddWithValue("@email", txt_Email->Text);
-            sqlCmd->Parameters->AddWithValue("@password", txt_password->Text);
+            sqlCmd->Parameters->AddWithValue("@email", email);
+            sqlCmd->Parameters->AddWithValue("@password", password);
+            sqlCmd->Parameters->AddWithValue("@firstName", firstName);
+            sqlCmd->Parameters->AddWithValue("@lastName", lastName);
 
             sqlCmd->ExecuteNonQuery();
+
             MessageBox::Show("Registration successful!", "Success",
                 MessageBoxButtons::OK, MessageBoxIcon::Information);
 
-            // Proceed to main form
-            MDIForm^ MdiParent = gcnew MDIForm();
-            MdiParent->Show();
+            MyForm^ loginForm = gcnew MyForm();
+            loginForm->Show();
             this->Hide();
         }
         catch (Exception^ ex) {
@@ -64,3 +82,9 @@ void university::Signup::btn_Signup_Click(System::Object^ sender, System::EventA
                 sqlConn->Close();
         }
     }
+
+    System::Void Signup::btn_Login_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e) {
+        MyForm^ loginForm = gcnew MyForm();
+        loginForm->Show();
+    }
+}
