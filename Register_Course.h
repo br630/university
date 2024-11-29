@@ -1,32 +1,31 @@
 #pragma once
 
 namespace university {
-
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace MySql::Data::MySqlClient;
 
-	/// <summary>
-	/// Summary for Register_Course
-	/// </summary>
-	public ref class Register_Course : public System::Windows::Forms::Form
-	{
+	public ref class Register_Course : public System::Windows::Forms::Form {
+	private:
+		// Database members
+		MySqlConnection^ sqlConn;
+		MySqlCommand^ sqlCmd;
+		String^ connectionString;
+		String^ studentId; // To store current student's ID
+
 	public:
 		Register_Course(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+			InitializeDatabase();
+			InitializeAdditionalComponents();
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
 		~Register_Course()
 		{
 			if (components)
@@ -38,8 +37,8 @@ namespace university {
 	private: System::Windows::Forms::TextBox^ textBox1;
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
-	private: System::Windows::Forms::Button^ btn_icp;
-	private: System::Windows::Forms::PictureBox^ picture_1;
+
+
 	private: System::Windows::Forms::PictureBox^ picturebox2;
 
 
@@ -81,8 +80,6 @@ namespace university {
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
-			this->btn_icp = (gcnew System::Windows::Forms::Button());
-			this->picture_1 = (gcnew System::Windows::Forms::PictureBox());
 			this->picturebox2 = (gcnew System::Windows::Forms::PictureBox());
 			this->picture_3 = (gcnew System::Windows::Forms::PictureBox());
 			this->label2 = (gcnew System::Windows::Forms::Label());
@@ -92,7 +89,6 @@ namespace university {
 			this->algo_btn = (gcnew System::Windows::Forms::Button());
 			this->web_btn = (gcnew System::Windows::Forms::Button());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture_1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picturebox2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture_3))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
@@ -123,21 +119,6 @@ namespace university {
 			this->menuStrip1->Size = System::Drawing::Size(1325, 24);
 			this->menuStrip1->TabIndex = 3;
 			this->menuStrip1->Text = L"menuStrip1";
-			// 
-			// btn_icp
-			// 
-			this->btn_icp->Location = System::Drawing::Point(0, 0);
-			this->btn_icp->Name = L"btn_icp";
-			this->btn_icp->Size = System::Drawing::Size(75, 23);
-			this->btn_icp->TabIndex = 31;
-			// 
-			// picture_1
-			// 
-			this->picture_1->Location = System::Drawing::Point(0, 0);
-			this->picture_1->Name = L"picture_1";
-			this->picture_1->Size = System::Drawing::Size(100, 50);
-			this->picture_1->TabIndex = 35;
-			this->picture_1->TabStop = false;
 			// 
 			// picturebox2
 			// 
@@ -176,7 +157,7 @@ namespace university {
 				L"Semester 1(2024/2025)", L"Semester 2(2024/2025)",
 					L"Semester 1(2025/2026)", L"Semester 2(2025/2026)"
 			});
-			this->comboBox1->Location = System::Drawing::Point(12, 79);
+			this->comboBox1->Location = System::Drawing::Point(12, 50);
 			this->comboBox1->Name = L"comboBox1";
 			this->comboBox1->Size = System::Drawing::Size(246, 28);
 			this->comboBox1->TabIndex = 29;
@@ -184,7 +165,7 @@ namespace university {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(8, 46);
+			this->label3->Location = System::Drawing::Point(8, 16);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(78, 20);
 			this->label3->TabIndex = 30;
@@ -242,8 +223,6 @@ namespace university {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->picture_3);
 			this->Controls->Add(this->picturebox2);
-			this->Controls->Add(this->btn_icp);
-			this->Controls->Add(this->picture_1);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->menuStrip1);
@@ -254,7 +233,6 @@ namespace university {
 			this->Name = L"Register_Course";
 			this->Text = L"Registration";
 			this->Load += gcnew System::EventHandler(this, &Register_Course::Register_Course_Load);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture_1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picturebox2))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture_3))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
@@ -262,8 +240,152 @@ namespace university {
 			this->PerformLayout();
 
 		}
-#pragma endregion;
-private: System::Void Register_Course_Load(System::Object^ sender, System::EventArgs^ e) {
+private:
+	void InitializeDatabase() {
+		try {
+			connectionString = "datasource=localhost;port=3306;username=root;password=;database=university_management;";
+			sqlConn = gcnew MySqlConnection(connectionString);
+			sqlCmd = gcnew MySqlCommand();
+			sqlCmd->Connection = sqlConn;
+		}
+		catch (Exception^ ex) {
+			MessageBox::Show("Failed to initialize database connection: " + ex->Message);
+		}
+	}
+
+	void LoadAvailableCourses() {
+		if (String::IsNullOrEmpty(comboBox1->Text))
+			return;
+
+		try {
+			sqlConn->Open();
+			String^ sql = "SELECT courseID, courseName, credits FROM courses " +
+				"WHERE semester = @semester AND courseID NOT IN " +
+				"(SELECT courseID FROM enrollments WHERE studentID = @studentID)";
+
+			sqlCmd->CommandText = sql;
+			sqlCmd->Parameters->Clear();
+			sqlCmd->Parameters->AddWithValue("@semester", comboBox1->Text);
+			sqlCmd->Parameters->AddWithValue("@studentID", studentId);
+
+			MySqlDataReader^ reader = sqlCmd->ExecuteReader();
+
+			// Clear existing buttons
+			icp_btn->Enabled = false;
+			algo_btn->Enabled = false;
+			web_btn->Enabled = false;
+
+			while (reader->Read()) {
+				String^ courseName = reader["courseName"]->ToString();
+
+				// Enable corresponding button based on course
+				if (courseName->Contains("Intermediate Computer Programming"))
+					icp_btn->Enabled = true;
+				else if (courseName->Contains("Algorithms Design"))
+					algo_btn->Enabled = true;
+				else if (courseName->Contains("Web Technologies"))
+					web_btn->Enabled = true;
+			}
+
+			reader->Close();
+			sqlConn->Close();
+		}
+		catch (Exception^ ex) {
+			MessageBox::Show("Error loading courses: " + ex->Message);
+		}
+	}
+
+	void SearchCourses() {
+		String^ searchTerm = textBox1->Text->ToLower();
+
+		icp_btn->Visible = (gcnew String("intermediate computer programming"))->ToLower()->Contains(searchTerm) == true;
+		algo_btn->Visible = (gcnew String("algorithms design"))->ToLower()->Contains(searchTerm) == true;
+		web_btn->Visible = (gcnew String("web technologies"))->ToLower()->Contains(searchTerm) == true;
+	}
+
+	void RegisterForCourse(String^ courseName) {
+		if (String::IsNullOrEmpty(comboBox1->Text)) {
+			MessageBox::Show("Please select a semester first.");
+			return;
+		}
+
+		try {
+			sqlConn->Open();
+
+			// Get courseID
+			sqlCmd->CommandText = "SELECT courseID FROM courses WHERE courseName LIKE @courseName";
+			sqlCmd->Parameters->Clear();
+			sqlCmd->Parameters->AddWithValue("@courseName", "%" + courseName + "%");
+			Object^ courseId = sqlCmd->ExecuteScalar();
+
+			if (courseId != nullptr) {
+				// Check if already enrolled
+				sqlCmd->CommandText = "SELECT COUNT(*) FROM enrollments WHERE studentID = @studentID AND courseID = @courseID";
+				sqlCmd->Parameters->Clear();
+				sqlCmd->Parameters->AddWithValue("@studentID", studentId);
+				sqlCmd->Parameters->AddWithValue("@courseID", courseId->ToString());
+
+				int count = Convert::ToInt32(sqlCmd->ExecuteScalar());
+
+				if (count == 0) {
+					// Insert enrollment
+					sqlCmd->CommandText = "INSERT INTO enrollments (studentID, courseID, semester, enrollmentDate) " +
+						"VALUES (@studentID, @courseID, @semester, NOW())";
+					sqlCmd->Parameters->Clear();
+					sqlCmd->Parameters->AddWithValue("@studentID", studentId);
+					sqlCmd->Parameters->AddWithValue("@courseID", courseId->ToString());
+					sqlCmd->Parameters->AddWithValue("@semester", comboBox1->Text);
+
+					sqlCmd->ExecuteNonQuery();
+					MessageBox::Show("Successfully registered for " + courseName);
+					LoadAvailableCourses();
+				}
+				else {
+					MessageBox::Show("You are already enrolled in this course.");
+				}
+			}
+
+			sqlConn->Close();
+		}
+		catch (Exception^ ex) {
+			MessageBox::Show("Error registering for course: " + ex->Message);
+		}
+	}
+
+	void InitializeAdditionalComponents() {
+		this->textBox1->TextChanged += gcnew System::EventHandler(this, &Register_Course::textBox1_TextChanged);
+		this->comboBox1->SelectedIndexChanged += gcnew System::EventHandler(this, &Register_Course::comboBox1_SelectedIndexChanged);
+		this->icp_btn->Click += gcnew System::EventHandler(this, &Register_Course::icp_btn_Click);
+		this->algo_btn->Click += gcnew System::EventHandler(this, &Register_Course::algo_btn_Click);
+		this->web_btn->Click += gcnew System::EventHandler(this, &Register_Course::web_btn_Click);
+	}
+
+	// Event handlers
+	System::Void Register_Course_Load(System::Object^ sender, System::EventArgs^ e) {
+		studentId = "1"; // Placeholder - replace with actual student ID
+		LoadAvailableCourses();
+	}
+
+	System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+		SearchCourses();
+	}
+
+	System::Void comboBox1_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+		LoadAvailableCourses();
+	}
+
+	System::Void icp_btn_Click(System::Object^ sender, System::EventArgs^ e) {
+		RegisterForCourse("Intermediate Computer Programming");
+	}
+
+	System::Void algo_btn_Click(System::Object^ sender, System::EventArgs^ e) {
+		RegisterForCourse("Algorithms Design");
+	}
+
+	System::Void web_btn_Click(System::Object^ sender, System::EventArgs^ e) {
+		RegisterForCourse("Web Technologies");
+	}
+
+	// Your existing InitializeComponent method remains unchanged
+	};
 }
-};
-};
