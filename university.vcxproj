@@ -124,6 +124,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Access_Rosters.cpp" />
+    <ClCompile Include="Course_Management.cpp" />
+    <ClCompile Include="Create_Courses.cpp" />
     <ClCompile Include="DatabaseManager.cpp" />
     <ClCompile Include="Enrollment.cpp" />
     <ClCompile Include="Enter_Grade.cpp" />
@@ -140,6 +142,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Access_Rosters.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Course_Management.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Create_Courses.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="DatabaseManager.h" />
@@ -159,9 +167,7 @@
     <ClInclude Include="MDIForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="MyForm.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
+    <ClInclude Include="MyForm.h" />
     <ClInclude Include="Register_Course.h">
       <FileType>CppForm</FileType>
     </ClInclude>
@@ -179,6 +185,12 @@
     <EmbeddedResource Include="Access_Rosters.resx">
       <DependentUpon>Access_Rosters.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Course_Management.resx">
+      <DependentUpon>Course_Management.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Create_Courses.resx">
+      <DependentUpon>Create_Courses.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Enrollment.resx">
       <DependentUpon>Enrollment.h</DependentUpon>
     </EmbeddedResource>
@@ -191,9 +203,7 @@
     <EmbeddedResource Include="MDIForm.resx">
       <DependentUpon>MDIForm.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MyForm.resx">
-      <DependentUpon>MyForm.h</DependentUpon>
-    </EmbeddedResource>
+    <EmbeddedResource Include="MyForm.resx" />
     <EmbeddedResource Include="Register_Course.resx">
       <DependentUpon>Register_Course.h</DependentUpon>
     </EmbeddedResource>

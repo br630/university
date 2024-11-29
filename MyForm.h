@@ -89,7 +89,7 @@ namespace university {
 			this->Username->Location = System::Drawing::Point(59, 93);
 			this->Username->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
 			this->Username->Name = L"Username";
-			this->Username->Size = System::Drawing::Size(83, 20);
+			this->Username->Size = System::Drawing::Size(48, 20);
 			this->Username->TabIndex = 2;
 			this->Username->Text = L"Email";
 			this->Username->Click += gcnew System::EventHandler(this, &MyForm::Username_Click);
@@ -192,6 +192,8 @@ namespace university {
 			this->Name = L"MyForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"MyForm";
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &MyForm::MyForm_FormClosing);
+			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -203,5 +205,8 @@ namespace university {
 		System::Void Username_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void label1_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void linkLabel2_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e);
-	};
+		System::Void MyForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e);
+	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
+	}
+};
 }

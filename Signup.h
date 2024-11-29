@@ -65,6 +65,8 @@ namespace university {
 
 		void InitializeComponent(void)
 		{
+			this->FormClosing += gcnew System::Windows::Forms::FormClosingEventHandler(this, &Signup::Signup_FormClosing);
+			this->btnCancel->Click += gcnew System::EventHandler(this, &Signup::btnCancel_Click);
 			this->Username = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->txtuserName = (gcnew System::Windows::Forms::TextBox());
@@ -264,5 +266,6 @@ namespace university {
 private: System::Void btnSignup_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void btn_Login_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e);
 private: System::Void btnCancel_Click(System::Object^ sender, System::EventArgs^ e);
+private: System::Void Signup_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e);
 };
 }

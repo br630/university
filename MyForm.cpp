@@ -72,4 +72,8 @@ namespace university {
         signupForm->Show();
         this->Hide();
     }
+
+    System::Void MyForm::MyForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
+        Application::ExitThread();
+    }
 }

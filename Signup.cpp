@@ -87,4 +87,8 @@ namespace university {
         MyForm^ loginForm = gcnew MyForm();
         loginForm->Show();
     }
+
+    System::Void Signup::Signup_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {
+        Application::ExitThread();
+    }
 }
