@@ -120,17 +120,17 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Access_Rosters.cpp" />
     <ClCompile Include="Course_Management.cpp" />
-    <ClCompile Include="Create_Courses.cpp" />
     <ClCompile Include="DatabaseManager.cpp" />
     <ClCompile Include="Enrollment.cpp" />
     <ClCompile Include="Enter_Grade.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Manage_course.cpp" />
+    <ClCompile Include="Manage_Course_Materials.cpp" />
     <ClCompile Include="Manage_Profile.cpp" />
     <ClCompile Include="MDIForm.cpp" />
     <ClCompile Include="MyForm.cpp" />
@@ -147,9 +147,6 @@
     <ClInclude Include="Course_Management.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="Create_Courses.h">
-      <FileType>CppForm</FileType>
-    </ClInclude>
     <ClInclude Include="DatabaseManager.h" />
     <ClInclude Include="Enrollment.h">
       <FileType>CppForm</FileType>
@@ -158,7 +155,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Main.h" />
-    <ClInclude Include="Manage_course.h">
+    <ClInclude Include="Manage_Course_Materials.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Manage_Profile.h">
@@ -188,17 +185,14 @@
     <EmbeddedResource Include="Course_Management.resx">
       <DependentUpon>Course_Management.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Create_Courses.resx">
-      <DependentUpon>Create_Courses.h</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Enrollment.resx">
       <DependentUpon>Enrollment.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Enter_Grade.resx">
       <DependentUpon>Enter_Grade.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Manage_course.resx">
-      <DependentUpon>Manage_course.h</DependentUpon>
+    <EmbeddedResource Include="Manage_Course_Materials.resx">
+      <DependentUpon>Manage_Course_Materials.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manage_Profile.resx">
       <DependentUpon>Manage_Profile.h</DependentUpon>
@@ -212,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Signup.resx">
       <DependentUpon>Signup.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View_All_Users.resx">
+      <DependentUpon>View_All_Users.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View_Grade.resx">
       <DependentUpon>View_Grade.h</DependentUpon>

@@ -1,14 +1,13 @@
 #pragma once
 #include "Register_Course.h";
-#include "Manage_course.h";
 #include "Manage_Profile.h";
 #include "Access_Rosters.h";
 #include "Enter_Grade.h";
 #include "View_Grade.h";
 #include "Enrollment.h";
 #include "View_All_Users.h";
-#include "Create_Courses.h";
 #include "Course_Management.h";
+#include "Manage_Course_Materials.h";
 
 namespace university {
 
@@ -91,7 +90,7 @@ namespace university {
 	private: System::Windows::Forms::ToolStripMenuItem^ adminToolStripMenuItem1;
 	private: System::Windows::Forms::ToolStripMenuItem^ viewAllUsersToolStripMenuItem;
 	private: System::Windows::Forms::MenuStrip^ menuStrip1;
-	private: System::Windows::Forms::ToolStripMenuItem^ createCoursesToolStripMenuItem;
+
 	private: System::Windows::Forms::ToolStripMenuItem^ courseManagementToolStripMenuItem;
 
 
@@ -127,9 +126,8 @@ namespace university {
 			this->manageCourseMaterialsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->adminToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->viewAllUsersToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->createCoursesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->courseManagementToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
 			this->toolStrip1->SuspendLayout();
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
@@ -159,6 +157,7 @@ namespace university {
 			// toolStripButton2
 			// 
 			this->toolStripButton2->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->toolStripButton2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton2.Image")));
 			this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton2->Name = L"toolStripButton2";
 			this->toolStripButton2->Size = System::Drawing::Size(34, 28);
@@ -236,9 +235,9 @@ namespace university {
 			// 
 			// adminToolStripMenuItem1
 			// 
-			this->adminToolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(3) {
+			this->adminToolStripMenuItem1->DropDownItems->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
 				this->viewAllUsersToolStripMenuItem,
-					this->createCoursesToolStripMenuItem, this->courseManagementToolStripMenuItem
+					this->courseManagementToolStripMenuItem
 			});
 			this->adminToolStripMenuItem1->Name = L"adminToolStripMenuItem1";
 			this->adminToolStripMenuItem1->Size = System::Drawing::Size(81, 29);
@@ -251,12 +250,12 @@ namespace university {
 			this->viewAllUsersToolStripMenuItem->Text = L"View All Users";
 			this->viewAllUsersToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::viewAllUsersToolStripMenuItem_Click);
 			// 
-			// createCoursesToolStripMenuItem
+			// courseManagementToolStripMenuItem
 			// 
-			this->createCoursesToolStripMenuItem->Name = L"createCoursesToolStripMenuItem";
-			this->createCoursesToolStripMenuItem->Size = System::Drawing::Size(279, 34);
-			this->createCoursesToolStripMenuItem->Text = L"Create Courses";
-			this->createCoursesToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::createCoursesToolStripMenuItem_Click);
+			this->courseManagementToolStripMenuItem->Name = L"courseManagementToolStripMenuItem";
+			this->courseManagementToolStripMenuItem->Size = System::Drawing::Size(279, 34);
+			this->courseManagementToolStripMenuItem->Text = L"Course Management";
+			this->courseManagementToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::courseManagementToolStripMenuItem_Click);
 			// 
 			// menuStrip1
 			// 
@@ -272,13 +271,6 @@ namespace university {
 			this->menuStrip1->TabIndex = 1;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
-			// courseManagementToolStripMenuItem
-			// 
-			this->courseManagementToolStripMenuItem->Name = L"courseManagementToolStripMenuItem";
-			this->courseManagementToolStripMenuItem->Size = System::Drawing::Size(279, 34);
-			this->courseManagementToolStripMenuItem->Text = L"Course Management";
-			this->courseManagementToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::courseManagementToolStripMenuItem_Click);
-			// 
 			// MDIForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
@@ -288,6 +280,7 @@ namespace university {
 			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->menuStrip1);
 			this->DoubleBuffered = true;
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			this->IsMdiContainer = true;
 			this->MainMenuStrip = this->menuStrip1;
 			this->MaximizeBox = false;
@@ -319,7 +312,6 @@ namespace university {
 
 	private: System::Void viewAllUsersToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void studentsToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
-	private: System::Void createCoursesToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
 	private: System::Void courseManagementToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }

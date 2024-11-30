@@ -60,6 +60,7 @@ namespace university {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(Manage_Profile::typeid));
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->txt_name = (gcnew System::Windows::Forms::Label());
@@ -177,6 +178,9 @@ namespace university {
 			this->Controls->Add(this->txt_name);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->pictureBox1);
+			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+			this->MaximizeBox = false;
+			this->MinimizeBox = false;
 			this->Name = L"Manage_Profile";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"Manage_Profile";

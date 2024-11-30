@@ -31,9 +31,9 @@ namespace university {
 	}
 
 	System::Void MDIForm::manageCourseMaterialsToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		Manage_course^ frmCourse = gcnew Manage_course();
-		frmCourse->MdiParent = this;
-		frmCourse->Show();
+		Manage_Course_Materials^ frmCManage = gcnew Manage_Course_Materials();
+		frmCManage->MdiParent = this;
+		frmCManage->Show();
 	}
 
 	System::Void MDIForm::enrollmentToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -48,11 +48,6 @@ namespace university {
 		frmUsers->Show();
 	}
 	System::Void MDIForm::studentsToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-	}
-	System::Void MDIForm::createCoursesToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		Create_Courses^ frmCreate = gcnew Create_Courses();
-		frmCreate->MdiParent = this;
-		frmCreate->Show();
 	}
 	System::Void MDIForm::courseManagementToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		Course_Management^ frmcManage = gcnew Course_Management();

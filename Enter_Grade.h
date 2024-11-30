@@ -68,129 +68,85 @@ namespace university {
 
         void InitializeComponent(void)
         {
-            // Course Selection Group
+            System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(Enter_Grade::typeid));
             this->groupBoxCourseSelect = (gcnew System::Windows::Forms::GroupBox());
-            this->groupBoxCourseSelect->Location = System::Drawing::Point(12, 12);
-            this->groupBoxCourseSelect->Size = System::Drawing::Size(400, 100);
-            this->groupBoxCourseSelect->Text = L"Course Selection";
-
             this->lblCourse = (gcnew System::Windows::Forms::Label());
-            this->lblCourse->Location = System::Drawing::Point(20, 30);
-            this->lblCourse->Text = L"Course:";
             this->comboCourses = (gcnew System::Windows::Forms::ComboBox());
-            this->comboCourses->Location = System::Drawing::Point(100, 27);
-            this->comboCourses->Size = System::Drawing::Size(250, 24);
-            this->comboCourses->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-
             this->lblSemester = (gcnew System::Windows::Forms::Label());
-            this->lblSemester->Location = System::Drawing::Point(20, 60);
-            this->lblSemester->Text = L"Semester:";
             this->comboSemester = (gcnew System::Windows::Forms::ComboBox());
-            this->comboSemester->Location = System::Drawing::Point(100, 57);
-            this->comboSemester->Size = System::Drawing::Size(250, 24);
-            this->comboSemester->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->comboSemester->Items->AddRange(gcnew cli::array<Object^>(2) { "Semester1", "Semester2" });
-
-            // Grade Input Group
             this->groupBoxGradeInput = (gcnew System::Windows::Forms::GroupBox());
-            this->groupBoxGradeInput->Location = System::Drawing::Point(12, 120);
-            this->groupBoxGradeInput->Size = System::Drawing::Size(400, 300);
-            this->groupBoxGradeInput->Text = L"Grade Input";
-
-            // Student ID
             this->lblStudentID = (gcnew System::Windows::Forms::Label());
-            this->lblStudentID->Location = System::Drawing::Point(20, 30);
-            this->lblStudentID->Text = L"Student ID:";
             this->txtStudentID = (gcnew System::Windows::Forms::TextBox());
-            this->txtStudentID->Location = System::Drawing::Point(120, 27);
-            this->txtStudentID->Size = System::Drawing::Size(200, 24);
-            this->txtStudentID->ReadOnly = true;
-
-            // Student Name
             this->lblStudentName = (gcnew System::Windows::Forms::Label());
-            this->lblStudentName->Location = System::Drawing::Point(20, 60);
-            this->lblStudentName->Text = L"Student Name:";
             this->txtStudentName = (gcnew System::Windows::Forms::TextBox());
-            this->txtStudentName->Location = System::Drawing::Point(120, 57);
-            this->txtStudentName->Size = System::Drawing::Size(200, 24);
-            this->txtStudentName->ReadOnly = true;
-
-            // Grade
             this->lblGrade = (gcnew System::Windows::Forms::Label());
-            this->lblGrade->Location = System::Drawing::Point(20, 90);
-            this->lblGrade->Text = L"Grade:";
             this->txtGrade = (gcnew System::Windows::Forms::TextBox());
-            this->txtGrade->Location = System::Drawing::Point(120, 87);
-            this->txtGrade->Size = System::Drawing::Size(100, 24);
-
-            // Notes
             this->lblNotes = (gcnew System::Windows::Forms::Label());
-            this->lblNotes->Location = System::Drawing::Point(20, 120);
-            this->lblNotes->Text = L"Notes:";
             this->txtNotes = (gcnew System::Windows::Forms::RichTextBox());
-            this->txtNotes->Location = System::Drawing::Point(120, 117);
-            this->txtNotes->Size = System::Drawing::Size(250, 100);
-
-            // Buttons
             this->btnSubmit = (gcnew System::Windows::Forms::Button());
-            this->btnSubmit->Location = System::Drawing::Point(120, 230);
-            this->btnSubmit->Size = System::Drawing::Size(80, 30);
-            this->btnSubmit->Text = L"Submit";
-
             this->btnUpdate = (gcnew System::Windows::Forms::Button());
-            this->btnUpdate->Location = System::Drawing::Point(210, 230);
-            this->btnUpdate->Size = System::Drawing::Size(80, 30);
-            this->btnUpdate->Text = L"Update";
-
             this->btnClear = (gcnew System::Windows::Forms::Button());
-            this->btnClear->Location = System::Drawing::Point(300, 230);
-            this->btnClear->Size = System::Drawing::Size(80, 30);
-            this->btnClear->Text = L"Clear";
-
-            // Search
             this->txtSearch = (gcnew System::Windows::Forms::TextBox());
-            this->txtSearch->Location = System::Drawing::Point(430, 12);
-            this->txtSearch->Size = System::Drawing::Size(200, 24);
-
             this->btnSearch = (gcnew System::Windows::Forms::Button());
-            this->btnSearch->Location = System::Drawing::Point(640, 10);
-            this->btnSearch->Size = System::Drawing::Size(80, 26);
-            this->btnSearch->Text = L"Search";
-
-            // DataGridView
             this->dataGridGrades = (gcnew System::Windows::Forms::DataGridView());
-            this->dataGridGrades->Location = System::Drawing::Point(430, 45);
-            this->dataGridGrades->Size = System::Drawing::Size(580, 375);
-            this->dataGridGrades->AllowUserToAddRows = false;
-            this->dataGridGrades->AllowUserToDeleteRows = false;
-            this->dataGridGrades->MultiSelect = false;
-            this->dataGridGrades->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
-            this->dataGridGrades->ReadOnly = true;
-
-            // Form settings
-            this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
-            this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-            this->ClientSize = System::Drawing::Size(1024, 450);
-            this->MaximizeBox = false;
-            this->MinimizeBox = false;
-            this->Name = L"Enter_Grade";
-            this->Text = L"Enter Grade";
-            this->Load += gcnew System::EventHandler(this, &Enter_Grade::Enter_Grade_Load);
-
-            // Add controls to form
-            this->Controls->Add(this->groupBoxCourseSelect);
-            this->Controls->Add(this->groupBoxGradeInput);
-            this->Controls->Add(this->txtSearch);
-            this->Controls->Add(this->btnSearch);
-            this->Controls->Add(this->dataGridGrades);
-
-            // Add controls to course selection group
+            this->groupBoxCourseSelect->SuspendLayout();
+            this->groupBoxGradeInput->SuspendLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridGrades))->BeginInit();
+            this->SuspendLayout();
+            // 
+            // groupBoxCourseSelect
+            // 
             this->groupBoxCourseSelect->Controls->Add(this->lblCourse);
             this->groupBoxCourseSelect->Controls->Add(this->comboCourses);
             this->groupBoxCourseSelect->Controls->Add(this->lblSemester);
             this->groupBoxCourseSelect->Controls->Add(this->comboSemester);
-
-            // Add controls to grade input group
+            this->groupBoxCourseSelect->Location = System::Drawing::Point(18, 18);
+            this->groupBoxCourseSelect->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->groupBoxCourseSelect->Name = L"groupBoxCourseSelect";
+            this->groupBoxCourseSelect->Padding = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->groupBoxCourseSelect->Size = System::Drawing::Size(600, 154);
+            this->groupBoxCourseSelect->TabIndex = 0;
+            this->groupBoxCourseSelect->TabStop = false;
+            this->groupBoxCourseSelect->Text = L"Course Selection";
+            // 
+            // lblCourse
+            // 
+            this->lblCourse->Location = System::Drawing::Point(30, 46);
+            this->lblCourse->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+            this->lblCourse->Name = L"lblCourse";
+            this->lblCourse->Size = System::Drawing::Size(150, 35);
+            this->lblCourse->TabIndex = 0;
+            this->lblCourse->Text = L"Course:";
+            // 
+            // comboCourses
+            // 
+            this->comboCourses->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->comboCourses->Location = System::Drawing::Point(150, 42);
+            this->comboCourses->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->comboCourses->Name = L"comboCourses";
+            this->comboCourses->Size = System::Drawing::Size(373, 28);
+            this->comboCourses->TabIndex = 1;
+            // 
+            // lblSemester
+            // 
+            this->lblSemester->Location = System::Drawing::Point(30, 92);
+            this->lblSemester->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+            this->lblSemester->Name = L"lblSemester";
+            this->lblSemester->Size = System::Drawing::Size(150, 35);
+            this->lblSemester->TabIndex = 2;
+            this->lblSemester->Text = L"Semester:";
+            // 
+            // comboSemester
+            // 
+            this->comboSemester->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->comboSemester->Location = System::Drawing::Point(150, 88);
+            this->comboSemester->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->comboSemester->Name = L"comboSemester";
+            this->comboSemester->Size = System::Drawing::Size(373, 28);
+            this->comboSemester->TabIndex = 3;
+            // 
+            // groupBoxGradeInput
+            // 
             this->groupBoxGradeInput->Controls->Add(this->lblStudentID);
             this->groupBoxGradeInput->Controls->Add(this->txtStudentID);
             this->groupBoxGradeInput->Controls->Add(this->lblStudentName);
@@ -202,9 +158,170 @@ namespace university {
             this->groupBoxGradeInput->Controls->Add(this->btnSubmit);
             this->groupBoxGradeInput->Controls->Add(this->btnUpdate);
             this->groupBoxGradeInput->Controls->Add(this->btnClear);
-
+            this->groupBoxGradeInput->Location = System::Drawing::Point(18, 185);
+            this->groupBoxGradeInput->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->groupBoxGradeInput->Name = L"groupBoxGradeInput";
+            this->groupBoxGradeInput->Padding = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->groupBoxGradeInput->Size = System::Drawing::Size(600, 462);
+            this->groupBoxGradeInput->TabIndex = 1;
+            this->groupBoxGradeInput->TabStop = false;
+            this->groupBoxGradeInput->Text = L"Grade Input";
+            // 
+            // lblStudentID
+            // 
+            this->lblStudentID->Location = System::Drawing::Point(30, 46);
+            this->lblStudentID->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+            this->lblStudentID->Name = L"lblStudentID";
+            this->lblStudentID->Size = System::Drawing::Size(150, 35);
+            this->lblStudentID->TabIndex = 0;
+            this->lblStudentID->Text = L"Student ID:";
+            // 
+            // txtStudentID
+            // 
+            this->txtStudentID->Location = System::Drawing::Point(180, 42);
+            this->txtStudentID->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->txtStudentID->Name = L"txtStudentID";
+            this->txtStudentID->ReadOnly = true;
+            this->txtStudentID->Size = System::Drawing::Size(298, 26);
+            this->txtStudentID->TabIndex = 1;
+            // 
+            // lblStudentName
+            // 
+            this->lblStudentName->Location = System::Drawing::Point(30, 92);
+            this->lblStudentName->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+            this->lblStudentName->Name = L"lblStudentName";
+            this->lblStudentName->Size = System::Drawing::Size(150, 35);
+            this->lblStudentName->TabIndex = 2;
+            this->lblStudentName->Text = L"Student Name:";
+            // 
+            // txtStudentName
+            // 
+            this->txtStudentName->Location = System::Drawing::Point(180, 88);
+            this->txtStudentName->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->txtStudentName->Name = L"txtStudentName";
+            this->txtStudentName->ReadOnly = true;
+            this->txtStudentName->Size = System::Drawing::Size(298, 26);
+            this->txtStudentName->TabIndex = 3;
+            // 
+            // lblGrade
+            // 
+            this->lblGrade->Location = System::Drawing::Point(30, 138);
+            this->lblGrade->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+            this->lblGrade->Name = L"lblGrade";
+            this->lblGrade->Size = System::Drawing::Size(150, 35);
+            this->lblGrade->TabIndex = 4;
+            this->lblGrade->Text = L"Grade:";
+            // 
+            // txtGrade
+            // 
+            this->txtGrade->Location = System::Drawing::Point(180, 134);
+            this->txtGrade->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->txtGrade->Name = L"txtGrade";
+            this->txtGrade->Size = System::Drawing::Size(148, 26);
+            this->txtGrade->TabIndex = 5;
+            // 
+            // lblNotes
+            // 
+            this->lblNotes->Location = System::Drawing::Point(30, 185);
+            this->lblNotes->Margin = System::Windows::Forms::Padding(4, 0, 4, 0);
+            this->lblNotes->Name = L"lblNotes";
+            this->lblNotes->Size = System::Drawing::Size(150, 35);
+            this->lblNotes->TabIndex = 6;
+            this->lblNotes->Text = L"Notes:";
+            // 
+            // txtNotes
+            // 
+            this->txtNotes->Location = System::Drawing::Point(180, 180);
+            this->txtNotes->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->txtNotes->Name = L"txtNotes";
+            this->txtNotes->Size = System::Drawing::Size(373, 152);
+            this->txtNotes->TabIndex = 7;
+            this->txtNotes->Text = L"";
+            // 
+            // btnSubmit
+            // 
+            this->btnSubmit->Location = System::Drawing::Point(180, 354);
+            this->btnSubmit->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->btnSubmit->Name = L"btnSubmit";
+            this->btnSubmit->Size = System::Drawing::Size(120, 46);
+            this->btnSubmit->TabIndex = 8;
+            this->btnSubmit->Text = L"Submit";
+            // 
+            // btnUpdate
+            // 
+            this->btnUpdate->Location = System::Drawing::Point(315, 354);
+            this->btnUpdate->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->btnUpdate->Name = L"btnUpdate";
+            this->btnUpdate->Size = System::Drawing::Size(120, 46);
+            this->btnUpdate->TabIndex = 9;
+            this->btnUpdate->Text = L"Update";
+            // 
+            // btnClear
+            // 
+            this->btnClear->Location = System::Drawing::Point(450, 354);
+            this->btnClear->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->btnClear->Name = L"btnClear";
+            this->btnClear->Size = System::Drawing::Size(120, 46);
+            this->btnClear->TabIndex = 10;
+            this->btnClear->Text = L"Clear";
+            // 
+            // txtSearch
+            // 
+            this->txtSearch->Location = System::Drawing::Point(645, 18);
+            this->txtSearch->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->txtSearch->Name = L"txtSearch";
+            this->txtSearch->Size = System::Drawing::Size(298, 26);
+            this->txtSearch->TabIndex = 2;
+            // 
+            // btnSearch
+            // 
+            this->btnSearch->Location = System::Drawing::Point(960, 15);
+            this->btnSearch->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->btnSearch->Name = L"btnSearch";
+            this->btnSearch->Size = System::Drawing::Size(120, 40);
+            this->btnSearch->TabIndex = 3;
+            this->btnSearch->Text = L"Search";
+            // 
+            // dataGridGrades
+            // 
+            this->dataGridGrades->AllowUserToAddRows = false;
+            this->dataGridGrades->AllowUserToDeleteRows = false;
+            this->dataGridGrades->ColumnHeadersHeight = 34;
+            this->dataGridGrades->Location = System::Drawing::Point(645, 69);
+            this->dataGridGrades->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->dataGridGrades->MultiSelect = false;
+            this->dataGridGrades->Name = L"dataGridGrades";
+            this->dataGridGrades->ReadOnly = true;
+            this->dataGridGrades->RowHeadersWidth = 62;
+            this->dataGridGrades->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
+            this->dataGridGrades->Size = System::Drawing::Size(870, 577);
+            this->dataGridGrades->TabIndex = 4;
+            // 
+            // Enter_Grade
+            // 
+            this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+            this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+            this->ClientSize = System::Drawing::Size(1536, 692);
+            this->Controls->Add(this->groupBoxCourseSelect);
+            this->Controls->Add(this->groupBoxGradeInput);
+            this->Controls->Add(this->txtSearch);
+            this->Controls->Add(this->btnSearch);
+            this->Controls->Add(this->dataGridGrades);
+            this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+            this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
+            this->MaximizeBox = false;
+            this->MinimizeBox = false;
+            this->Name = L"Enter_Grade";
+            this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
+            this->Text = L"Enter Grade";
+            this->Load += gcnew System::EventHandler(this, &Enter_Grade::Enter_Grade_Load);
+            this->groupBoxCourseSelect->ResumeLayout(false);
+            this->groupBoxGradeInput->ResumeLayout(false);
+            this->groupBoxGradeInput->PerformLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridGrades))->EndInit();
             this->ResumeLayout(false);
             this->PerformLayout();
+
         }
 
     private:

@@ -1,274 +1,264 @@
 #pragma once
 
+// Add these namespace references at the top
+using namespace System::Windows::Forms::DataVisualization;
+using namespace System::Windows::Forms::DataVisualization::Charting;
+
 namespace university {
+    using namespace System;
+    using namespace System::ComponentModel;
+    using namespace System::Collections;
+    using namespace System::Windows::Forms;
+    using namespace System::Data;
+    using namespace System::Drawing;
 
-	using namespace System;
-	using namespace System::ComponentModel;
-	using namespace System::Collections;
-	using namespace System::Windows::Forms;
-	using namespace System::Data;
-	using namespace System::Drawing;
+    public ref class View_Grade : public System::Windows::Forms::Form {
+    public:
+        View_Grade(void)
+        {
+            InitializeComponent();
+        }
 
-	/// <summary>
-	/// Summary for View_Grade
-	/// </summary>
-	public ref class View_Grade : public System::Windows::Forms::Form
-	{
-	public:
-		View_Grade(void)
-		{
-			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
-		}
+    protected:
+        ~View_Grade()
+        {
+            if (components)
+            {
+                delete components;
+            }
+        }
 
-	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		~View_Grade()
-		{
-			if (components)
-			{
-				delete components;
-			}
-		}
-	private: System::Windows::Forms::ProgressBar^ progressBar1;
-	protected:
-	private: System::Windows::Forms::MenuStrip^ menuStrip1;
-	private: System::Windows::Forms::ToolStripMenuItem^ homeToolStripMenuItem;
-	private: System::Windows::Forms::Label^ label1;
-	private: System::Windows::Forms::ListBox^ semesters;
-	private: System::Windows::Forms::Label^ label2;
-	private: System::Windows::Forms::Label^ txt_web;
-	private: System::Windows::Forms::Label^ txt_hardware;
-	private: System::Windows::Forms::Label^ label5;
-	private: System::Windows::Forms::Label^ page_view;
-
-	private: System::Windows::Forms::Button^ button1;
-	private: System::Windows::Forms::Label^ txt_algo;
-	private: System::Windows::Forms::Label^ std_grade;
+    private:
+        System::ComponentModel::Container^ components;
+        System::Windows::Forms::GroupBox^ groupBoxGradeStats;
+        System::Windows::Forms::Label^ lblCurrentGPA;
+        System::Windows::Forms::Label^ lblTotalCredits;
+        System::Windows::Forms::DataGridView^ gridDetailedGrades;
+        System::Windows::Forms::ComboBox^ comboGradeSemester;
+        System::Windows::Forms::Button^ btnExportGrades;
+        System::Windows::Forms::DataVisualization::Charting::Chart^ chartGradeProgress;
+        System::Windows::Forms::Panel^ panelGradeBreakdown;
+        System::Windows::Forms::MenuStrip^ menuStrip1;
+        System::Windows::Forms::ToolStripMenuItem^ homeToolStripMenuItem;
 
 
-	private: System::Windows::Forms::Label^ std_grade1;
+        void InitializeComponent(void)
+        {
+            System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+            System::Windows::Forms::DataVisualization::Charting::Series^ series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
+            System::Windows::Forms::DataVisualization::Charting::DataPoint^ dataPoint1 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0,
+                3.5));
+            System::Windows::Forms::DataVisualization::Charting::DataPoint^ dataPoint2 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0,
+                3.7));
+            System::Windows::Forms::DataVisualization::Charting::DataPoint^ dataPoint3 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0,
+                3.8));
+            System::Windows::Forms::DataVisualization::Charting::DataPoint^ dataPoint4 = (gcnew System::Windows::Forms::DataVisualization::Charting::DataPoint(0,
+                3.75));
+            System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(View_Grade::typeid));
+            this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
+            this->homeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+            this->groupBoxGradeStats = (gcnew System::Windows::Forms::GroupBox());
+            this->lblCurrentGPA = (gcnew System::Windows::Forms::Label());
+            this->lblTotalCredits = (gcnew System::Windows::Forms::Label());
+            this->comboGradeSemester = (gcnew System::Windows::Forms::ComboBox());
+            this->chartGradeProgress = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
+            this->gridDetailedGrades = (gcnew System::Windows::Forms::DataGridView());
+            this->btnExportGrades = (gcnew System::Windows::Forms::Button());
+            this->menuStrip1->SuspendLayout();
+            this->groupBoxGradeStats->SuspendLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chartGradeProgress))->BeginInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->gridDetailedGrades))->BeginInit();
+            this->SuspendLayout();
+            // 
+            // menuStrip1
+            // 
+            this->menuStrip1->GripMargin = System::Windows::Forms::Padding(2, 2, 0, 2);
+            this->menuStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
+            this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->homeToolStripMenuItem });
+            this->menuStrip1->Location = System::Drawing::Point(0, 0);
+            this->menuStrip1->Name = L"menuStrip1";
+            this->menuStrip1->Padding = System::Windows::Forms::Padding(7, 2, 0, 2);
+            this->menuStrip1->Size = System::Drawing::Size(982, 33);
+            this->menuStrip1->TabIndex = 0;
+            // 
+            // homeToolStripMenuItem
+            // 
+            this->homeToolStripMenuItem->Name = L"homeToolStripMenuItem";
+            this->homeToolStripMenuItem->Size = System::Drawing::Size(77, 29);
+            this->homeToolStripMenuItem->Text = L"Home";
+            // 
+            // groupBoxGradeStats
+            // 
+            this->groupBoxGradeStats->Controls->Add(this->lblCurrentGPA);
+            this->groupBoxGradeStats->Controls->Add(this->lblTotalCredits);
+            this->groupBoxGradeStats->Location = System::Drawing::Point(22, 65);
+            this->groupBoxGradeStats->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->groupBoxGradeStats->Name = L"groupBoxGradeStats";
+            this->groupBoxGradeStats->Padding = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->groupBoxGradeStats->Size = System::Drawing::Size(342, 143);
+            this->groupBoxGradeStats->TabIndex = 2;
+            this->groupBoxGradeStats->TabStop = false;
+            this->groupBoxGradeStats->Text = L"Academic Statistics";
+            // 
+            // lblCurrentGPA
+            // 
+            this->lblCurrentGPA->Location = System::Drawing::Point(11, 38);
+            this->lblCurrentGPA->Name = L"lblCurrentGPA";
+            this->lblCurrentGPA->Size = System::Drawing::Size(225, 25);
+            this->lblCurrentGPA->TabIndex = 0;
+            this->lblCurrentGPA->Text = L"Current GPA: 0.00";
+            // 
+            // lblTotalCredits
+            // 
+            this->lblTotalCredits->Location = System::Drawing::Point(11, 75);
+            this->lblTotalCredits->Name = L"lblTotalCredits";
+            this->lblTotalCredits->Size = System::Drawing::Size(225, 25);
+            this->lblTotalCredits->TabIndex = 1;
+            this->lblTotalCredits->Text = L"Total Credits: 0";
+            // 
+            // comboGradeSemester
+            // 
+            this->comboGradeSemester->Items->AddRange(gcnew cli::array< System::Object^  >(4) {
+                L"Fall 2024", L"Spring 2024", L"Fall 2023",
+                    L"Spring 2023"
+            });
+            this->comboGradeSemester->Location = System::Drawing::Point(22, 309);
+            this->comboGradeSemester->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->comboGradeSemester->Name = L"comboGradeSemester";
+            this->comboGradeSemester->Size = System::Drawing::Size(224, 28);
+            this->comboGradeSemester->TabIndex = 3;
+            this->comboGradeSemester->SelectedIndexChanged += gcnew System::EventHandler(this, &View_Grade::comboGradeSemester_SelectedIndexChanged);
+            // 
+            // chartGradeProgress
+            // 
+            chartArea1->Name = L"ChartArea1";
+            this->chartGradeProgress->ChartAreas->Add(chartArea1);
+            this->chartGradeProgress->Location = System::Drawing::Point(405, 65);
+            this->chartGradeProgress->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->chartGradeProgress->Name = L"chartGradeProgress";
+            series1->ChartArea = L"ChartArea1";
+            series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
+            series1->Name = L"GPA Trend";
+            dataPoint1->AxisLabel = L"Sem 1";
+            dataPoint2->AxisLabel = L"Sem 2";
+            dataPoint3->AxisLabel = L"Sem 3";
+            dataPoint4->AxisLabel = L"Sem 4";
+            series1->Points->Add(dataPoint1);
+            series1->Points->Add(dataPoint2);
+            series1->Points->Add(dataPoint3);
+            series1->Points->Add(dataPoint4);
+            this->chartGradeProgress->Series->Add(series1);
+            this->chartGradeProgress->Size = System::Drawing::Size(542, 285);
+            this->chartGradeProgress->TabIndex = 4;
+            // 
+            // gridDetailedGrades
+            // 
+            this->gridDetailedGrades->AllowUserToAddRows = false;
+            this->gridDetailedGrades->ColumnHeadersHeight = 34;
+            this->gridDetailedGrades->Location = System::Drawing::Point(22, 373);
+            this->gridDetailedGrades->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->gridDetailedGrades->Name = L"gridDetailedGrades";
+            this->gridDetailedGrades->ReadOnly = true;
+            this->gridDetailedGrades->RowHeadersWidth = 62;
+            this->gridDetailedGrades->Size = System::Drawing::Size(900, 227);
+            this->gridDetailedGrades->TabIndex = 5;
+            // 
+            // btnExportGrades
+            // 
+            this->btnExportGrades->Location = System::Drawing::Point(788, 238);
+            this->btnExportGrades->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->btnExportGrades->Name = L"btnExportGrades";
+            this->btnExportGrades->Size = System::Drawing::Size(135, 38);
+            this->btnExportGrades->TabIndex = 6;
+            this->btnExportGrades->Text = L"Export Grades";
+            this->btnExportGrades->Click += gcnew System::EventHandler(this, &View_Grade::btnExportGrades_Click);
+            // 
+            // View_Grade
+            // 
+            this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+            this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+            this->ClientSize = System::Drawing::Size(982, 625);
+            this->Controls->Add(this->menuStrip1);
+            this->Controls->Add(this->groupBoxGradeStats);
+            this->Controls->Add(this->comboGradeSemester);
+            this->Controls->Add(this->chartGradeProgress);
+            this->Controls->Add(this->gridDetailedGrades);
+            this->Controls->Add(this->btnExportGrades);
+            this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
+            this->MainMenuStrip = this->menuStrip1;
+            this->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->MaximizeBox = false;
+            this->MinimizeBox = false;
+            this->MinimumSize = System::Drawing::Size(965, 661);
+            this->Name = L"View_Grade";
+            this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
+            this->Text = L"View Grades";
+            this->Load += gcnew System::EventHandler(this, &View_Grade::View_Grade_Load);
+            this->menuStrip1->ResumeLayout(false);
+            this->menuStrip1->PerformLayout();
+            this->groupBoxGradeStats->ResumeLayout(false);
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->chartGradeProgress))->EndInit();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->gridDetailedGrades))->EndInit();
+            this->ResumeLayout(false);
+            this->PerformLayout();
 
-	private: System::Windows::Forms::Label^ std_grade2;
-	private: System::Windows::Forms::Label^ std_grade3;
+        }
 
+        // Rest of the methods remain the same...
+        void SetupGradesGrid(void) {
+            this->gridDetailedGrades->ColumnCount = 6;
+            array<String^>^ columnNames = {
+                "Course Code",
+                "Course Name",
+                "Credits",
+                "Midterm Grade",
+                "Final Grade",
+                "Overall Grade"
+            };
 
+            for (int i = 0; i < columnNames->Length; i++) {
+                this->gridDetailedGrades->Columns[i]->Name = columnNames[i];
+                this->gridDetailedGrades->Columns[i]->AutoSizeMode = DataGridViewAutoSizeColumnMode::Fill;
+            }
 
+            LoadGradeData();
+        }
 
+        void LoadGradeData(void) {
+            try {
+                this->gridDetailedGrades->Rows->Clear();
+                this->gridDetailedGrades->Rows->Add("CS101", "Programming Fundamentals", "3", "A", "A", "A");
+                this->gridDetailedGrades->Rows->Add("CS102", "Data Structures", "3", "A-", "A", "A-");
+                this->gridDetailedGrades->Rows->Add("MATH101", "Calculus I", "3", "B+", "A-", "B+");
+                this->gridDetailedGrades->Rows->Add("PHY101", "Physics I", "4", "B", "B+", "B+");
+            }
+            catch (Exception^ ex) {
+                MessageBox::Show("Error loading grade data: " + ex->Message);
+            }
+        }
 
-	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		System::ComponentModel::Container ^components;
+        System::Void View_Grade_Load(System::Object^ sender, System::EventArgs^ e) {
+            LoadGradeData();
+        }
 
-#pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		void InitializeComponent(void)
-		{
-			this->progressBar1 = (gcnew System::Windows::Forms::ProgressBar());
-			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
-			this->homeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->semesters = (gcnew System::Windows::Forms::ListBox());
-			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->txt_web = (gcnew System::Windows::Forms::Label());
-			this->txt_hardware = (gcnew System::Windows::Forms::Label());
-			this->label5 = (gcnew System::Windows::Forms::Label());
-			this->page_view = (gcnew System::Windows::Forms::Label());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->txt_algo = (gcnew System::Windows::Forms::Label());
-			this->std_grade = (gcnew System::Windows::Forms::Label());
-			this->std_grade1 = (gcnew System::Windows::Forms::Label());
-			this->std_grade2 = (gcnew System::Windows::Forms::Label());
-			this->std_grade3 = (gcnew System::Windows::Forms::Label());
-			this->menuStrip1->SuspendLayout();
-			this->SuspendLayout();
-			// 
-			// progressBar1
-			// 
-			this->progressBar1->Location = System::Drawing::Point(79, 100);
-			this->progressBar1->Name = L"progressBar1";
-			this->progressBar1->Size = System::Drawing::Size(961, 52);
-			this->progressBar1->TabIndex = 0;
-			this->progressBar1->Value = 50;
-			// 
-			// menuStrip1
-			// 
-			this->menuStrip1->GripMargin = System::Windows::Forms::Padding(2, 2, 0, 2);
-			this->menuStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
-			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->homeToolStripMenuItem });
-			this->menuStrip1->Location = System::Drawing::Point(0, 0);
-			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(1166, 33);
-			this->menuStrip1->TabIndex = 1;
-			this->menuStrip1->Text = L"menuStrip1";
-			// 
-			// homeToolStripMenuItem
-			// 
-			this->homeToolStripMenuItem->Name = L"homeToolStripMenuItem";
-			this->homeToolStripMenuItem->Size = System::Drawing::Size(77, 29);
-			this->homeToolStripMenuItem->Text = L"Home";
-			// 
-			// label1
-			// 
-			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(433, 60);
-			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(222, 20);
-			this->label1->TabIndex = 2;
-			this->label1->Text = L"Progress Made This Semester";
-			// 
-			// semesters
-			// 
-			this->semesters->FormattingEnabled = true;
-			this->semesters->ItemHeight = 20;
-			this->semesters->Items->AddRange(gcnew cli::array< System::Object^  >(4) {
-				L"Semester 1(2024/2025)", L"Semester 2(2024/2025)",
-					L"Semester 1(2025/2026)", L"Semester 2(2025/2026)"
-			});
-			this->semesters->Location = System::Drawing::Point(79, 190);
-			this->semesters->Name = L"semesters";
-			this->semesters->Size = System::Drawing::Size(234, 24);
-			this->semesters->TabIndex = 2;
-			// 
-			// label2
-			// 
-			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(75, 253);
-			this->label2->Name = L"label2";
-			this->label2->Size = System::Drawing::Size(271, 20);
-			this->label2->TabIndex = 3;
-			this->label2->Text = L"Intermediate Computer Programming";
-			// 
-			// txt_web
-			// 
-			this->txt_web->AutoSize = true;
-			this->txt_web->Location = System::Drawing::Point(75, 311);
-			this->txt_web->Name = L"txt_web";
-			this->txt_web->Size = System::Drawing::Size(140, 20);
-			this->txt_web->TabIndex = 4;
-			this->txt_web->Text = L"Web Technologies";
-			// 
-			// txt_hardware
-			// 
-			this->txt_hardware->AutoSize = true;
-			this->txt_hardware->Location = System::Drawing::Point(75, 368);
-			this->txt_hardware->Name = L"txt_hardware";
-			this->txt_hardware->Size = System::Drawing::Size(284, 20);
-			this->txt_hardware->TabIndex = 5;
-			this->txt_hardware->Text = L"Hardware Systems and Fundamentals ";
-			// 
-			// label5
-			// 
-			this->label5->AutoSize = true;
-			this->label5->Location = System::Drawing::Point(75, 423);
-			this->label5->Name = L"label5";
-			this->label5->Size = System::Drawing::Size(0, 20);
-			this->label5->TabIndex = 6;
-			// 
-			// page_view
-			// 
-			this->page_view->AutoSize = true;
-			this->page_view->Location = System::Drawing::Point(766, 190);
-			this->page_view->Name = L"page_view";
-			this->page_view->Size = System::Drawing::Size(117, 20);
-			this->page_view->TabIndex = 7;
-			this->page_view->Text = L"View Transcript";
-			// 
-			// button1
-			// 
-			this->button1->Location = System::Drawing::Point(889, 183);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(151, 27);
-			this->button1->TabIndex = 8;
-			this->button1->Text = L"View";
-			this->button1->UseVisualStyleBackColor = true;
-			// 
-			// txt_algo
-			// 
-			this->txt_algo->AutoSize = true;
-			this->txt_algo->Location = System::Drawing::Point(75, 423);
-			this->txt_algo->Name = L"txt_algo";
-			this->txt_algo->Size = System::Drawing::Size(235, 20);
-			this->txt_algo->TabIndex = 9;
-			this->txt_algo->Text = L"Algorithms Design and Analysis ";
-			// 
-			// std_grade
-			// 
-			this->std_grade->AutoSize = true;
-			this->std_grade->Location = System::Drawing::Point(628, 253);
-			this->std_grade->Name = L"std_grade";
-			this->std_grade->Size = System::Drawing::Size(142, 20);
-			this->std_grade->TabIndex = 10;
-			this->std_grade->Text = L"<Students_grade>";
-			// 
-			// std_grade1
-			// 
-			this->std_grade1->AutoSize = true;
-			this->std_grade1->Location = System::Drawing::Point(628, 311);
-			this->std_grade1->Name = L"std_grade1";
-			this->std_grade1->Size = System::Drawing::Size(142, 20);
-			this->std_grade1->TabIndex = 11;
-			this->std_grade1->Text = L"<Students_grade>";
-			// 
-			// std_grade2
-			// 
-			this->std_grade2->AutoSize = true;
-			this->std_grade2->Location = System::Drawing::Point(628, 368);
-			this->std_grade2->Name = L"std_grade2";
-			this->std_grade2->Size = System::Drawing::Size(142, 20);
-			this->std_grade2->TabIndex = 12;
-			this->std_grade2->Text = L"<Students_grade>";
-			// 
-			// std_grade3
-			// 
-			this->std_grade3->AutoSize = true;
-			this->std_grade3->Location = System::Drawing::Point(628, 423);
-			this->std_grade3->Name = L"std_grade3";
-			this->std_grade3->Size = System::Drawing::Size(142, 20);
-			this->std_grade3->TabIndex = 13;
-			this->std_grade3->Text = L"<Students_grade>";
-			// 
-			// View_Grade
-			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
-			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(1166, 546);
-			this->Controls->Add(this->std_grade3);
-			this->Controls->Add(this->std_grade2);
-			this->Controls->Add(this->std_grade1);
-			this->Controls->Add(this->std_grade);
-			this->Controls->Add(this->txt_algo);
-			this->Controls->Add(this->button1);
-			this->Controls->Add(this->page_view);
-			this->Controls->Add(this->label5);
-			this->Controls->Add(this->txt_hardware);
-			this->Controls->Add(this->txt_web);
-			this->Controls->Add(this->label2);
-			this->Controls->Add(this->semesters);
-			this->Controls->Add(this->label1);
-			this->Controls->Add(this->progressBar1);
-			this->Controls->Add(this->menuStrip1);
-			this->MainMenuStrip = this->menuStrip1;
-			this->MaximizeBox = false;
-			this->MinimizeBox = false;
-			this->Name = L"View_Grade";
-			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
-			this->Text = L"View_Grade";
-			this->menuStrip1->ResumeLayout(false);
-			this->menuStrip1->PerformLayout();
-			this->ResumeLayout(false);
-			this->PerformLayout();
+        System::Void comboGradeSemester_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+            LoadGradeData();
+        }
 
-		}
-#pragma endregion
-	};
+        System::Void btnExportGrades_Click(System::Object^ sender, System::EventArgs^ e) {
+            SaveFileDialog^ saveFileDialog1 = gcnew SaveFileDialog();
+            saveFileDialog1->Filter = "PDF Files (*.pdf)|*.pdf|Excel Files (*.xlsx)|*.xlsx";
+            saveFileDialog1->FilterIndex = 1;
+            saveFileDialog1->RestoreDirectory = true;
+
+            if (saveFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
+                try {
+                    MessageBox::Show("Exporting grades to: " + saveFileDialog1->FileName);
+                }
+                catch (Exception^ ex) {
+                    MessageBox::Show("Error exporting grades: " + ex->Message);
+                }
+            }
+        }
+};
 }
