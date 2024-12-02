@@ -240,6 +240,7 @@ namespace university {
             this->Name = L"Manage_Course_Materials";
             this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
             this->Text = L"Manage Course Materials";
+            this->Load += gcnew System::EventHandler(this, &Manage_Course_Materials::Manage_Course_Materials_Load);
             this->panelMaterialDetails->ResumeLayout(false);
             this->panelMaterialDetails->PerformLayout();
             this->ResumeLayout(false);
@@ -353,5 +354,7 @@ namespace university {
                 }
             }
         }
-    };
+    private: System::Void Manage_Course_Materials_Load(System::Object^ sender, System::EventArgs^ e) {
+    }
+};
 }

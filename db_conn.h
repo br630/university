@@ -14,7 +14,7 @@ private:
     // Private constructor for singleton pattern
     DatabaseManager()
     {
-        String^ connString = "datasource=localhost;port=3306;username=root;password=;database=university_management;";
+        String^ connString = "datasource=localhost;port=3306;username=root;password=;database=university;";
         sqlConn = gcnew MySqlConnection(connString);
     }
 
