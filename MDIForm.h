@@ -26,6 +26,12 @@ namespace university {
 	/// </summary>
 	public ref class MDIForm : public System::Windows::Forms::Form
 	{
+	private:
+		int currentFacultyID;
+	public:
+		void SetFacultyID(int facultyID) {
+			this->currentFacultyID = facultyID;
+		}
 	public:
 		MDIForm(void)
 		{
@@ -93,20 +99,6 @@ namespace university {
 		}
 
 	protected:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	private: System::Windows::Forms::ToolStripMenuItem^ studentsToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^ registerCoursesToolStripMenuItem;

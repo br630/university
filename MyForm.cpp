@@ -83,19 +83,20 @@ namespace university {
 
                     if (reader->Read()) {
                         Faculty^ currentFaculty = Faculty::GetInstance();
+                        int facultyID = Convert::ToInt32(reader["facultyID"]);
                         currentFaculty->SetUserID(userID);
                         currentFaculty->SetFirstName(firstName);
                         currentFaculty->SetLastName(lastName);
                         currentFaculty->SetEmail(email);
                         currentFaculty->SetRole(role);
-                        currentFaculty->SetFacultyID(Convert::ToInt32(reader["facultyID"]));
+                        currentFaculty->SetFacultyID(facultyID);
                         currentFaculty->SetDepartment(reader["department"]->ToString());
                         currentFaculty->SetDateOfAppointment(Convert::ToDateTime(reader["dateOfAppointment"]));
 
                         MessageBox::Show("Welcome Faculty " + currentFaculty->GetFullName() + "!", "Success",
                             MessageBoxButtons::OK, MessageBoxIcon::Information);
-
                         mdiParent->SetUserAccess(currentFaculty->GetRole());
+                        mdiParent->SetFacultyID(facultyID);
                     }
                 }
                 else if (role == "Administrator") {
@@ -144,12 +145,6 @@ namespace university {
     }
 
     System::Void MyForm::label1_Click(System::Object^ sender, System::EventArgs^ e) {
-    }
-
-    System::Void MyForm::linkLabel2_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e) {
-        Signup^ signupForm = gcnew Signup();
-        signupForm->Show();
-        this->Hide();
     }
 
     System::Void MyForm::MyForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e) {

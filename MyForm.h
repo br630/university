@@ -142,32 +142,12 @@ namespace university {
 			this->label1->Text = L"Login";
 			this->label1->Click += gcnew System::EventHandler(this, &MyForm::label1_Click);
 			// 
-			// btn_Signup
-			// 
-			this->btn_Signup->AutoSize = true;
-			this->btn_Signup->Location = System::Drawing::Point(242, 278);
-			this->btn_Signup->Name = L"btn_Signup";
-			this->btn_Signup->Size = System::Drawing::Size(63, 20);
-			this->btn_Signup->TabIndex = 8;
-			this->btn_Signup->TabStop = true;
-			this->btn_Signup->Text = L"Sign up";
-			this->btn_Signup->LinkClicked += gcnew System::Windows::Forms::LinkLabelLinkClickedEventHandler(this, &MyForm::linkLabel2_LinkClicked);
-			// 
 			// label3
 			// 
 			this->label3->Location = System::Drawing::Point(0, 0);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(100, 23);
 			this->label3->TabIndex = 0;
-			// 
-			// label4
-			// 
-			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(59, 278);
-			this->label4->Name = L"label4";
-			this->label4->Size = System::Drawing::Size(177, 20);
-			this->label4->TabIndex = 9;
-			this->label4->Text = L"Don\'t have an account\?";
 			// 
 			// MyForm
 			// 
@@ -204,7 +184,6 @@ namespace university {
 		System::Void btnLogin_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void Username_Click(System::Object^ sender, System::EventArgs^ e);
 		System::Void label1_Click(System::Object^ sender, System::EventArgs^ e);
-		System::Void linkLabel2_LinkClicked(System::Object^ sender, System::Windows::Forms::LinkLabelLinkClickedEventArgs^ e);
 		System::Void MyForm_FormClosing(System::Object^ sender, System::Windows::Forms::FormClosingEventArgs^ e);
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
