@@ -56,12 +56,20 @@ namespace university {
         System::Windows::Forms::TextBox^ txtSearch;
         System::Windows::Forms::Button^ btnSearch;
         System::ComponentModel::Container^ components;
+        System::Windows::Forms::Label^ lblDepartment;
+        System::Windows::Forms::ComboBox^ comboDepartment;
+        System::Windows::Forms::CheckBox^ chkAvailability;
+        System::Windows::Forms::ListBox^ listPrerequisites;
+        System::Windows::Forms::ComboBox^ comboPrerequisites;
+        System::Windows::Forms::Button^ btnAddPrerequisite;
+        System::Windows::Forms::Button^ btnRemovePrerequisite;
 
         // Helper methods
         void SetupDataGridView();
         void LoadCourses();
         void ClearForm();
         bool ValidateInput();
+        void LoadDepartments();
 
         // Event handlers
 // Event handlers - only declarations
@@ -84,7 +92,10 @@ namespace university {
             this->numCredits = (gcnew System::Windows::Forms::NumericUpDown());
             this->lblSemester = (gcnew System::Windows::Forms::Label());
             this->comboSemester = (gcnew System::Windows::Forms::ComboBox());
+            this->lblDepartment = (gcnew System::Windows::Forms::Label());
+            this->comboDepartment = (gcnew System::Windows::Forms::ComboBox());
             this->btnAdd = (gcnew System::Windows::Forms::Button());
+            this->chkAvailability = (gcnew System::Windows::Forms::CheckBox());
             this->btnUpdate = (gcnew System::Windows::Forms::Button());
             this->btnDelete = (gcnew System::Windows::Forms::Button());
             this->btnClear = (gcnew System::Windows::Forms::Button());
@@ -106,6 +117,8 @@ namespace university {
             this->groupBoxCourseDetails->Controls->Add(this->numCredits);
             this->groupBoxCourseDetails->Controls->Add(this->lblSemester);
             this->groupBoxCourseDetails->Controls->Add(this->comboSemester);
+            this->groupBoxCourseDetails->Controls->Add(this->lblDepartment);
+            this->groupBoxCourseDetails->Controls->Add(this->comboDepartment);
             this->groupBoxCourseDetails->Controls->Add(this->btnAdd);
             this->groupBoxCourseDetails->Controls->Add(this->btnUpdate);
             this->groupBoxCourseDetails->Controls->Add(this->btnDelete);
@@ -118,6 +131,7 @@ namespace university {
             this->groupBoxCourseDetails->TabIndex = 0;
             this->groupBoxCourseDetails->TabStop = false;
             this->groupBoxCourseDetails->Text = L"Course Details";
+            this->groupBoxCourseDetails->Controls->Add(this->chkAvailability);
             // 
             // lblCourseID
             // 
@@ -192,41 +206,66 @@ namespace university {
             this->comboSemester->Size = System::Drawing::Size(236, 24);
             this->comboSemester->TabIndex = 7;
             // 
+            // lblDepartment
+            // 
+            this->lblDepartment->Location = System::Drawing::Point(49, 287);
+            this->lblDepartment->Name = L"lblDepartment";
+            this->lblDepartment->Size = System::Drawing::Size(118, 22);
+            this->lblDepartment->TabIndex = 8;
+            this->lblDepartment->Text = L"Department:";
+            // 
+            // comboDepartment
+            // 
+            this->comboDepartment->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->comboDepartment->Location = System::Drawing::Point(167, 284);
+            this->comboDepartment->Name = L"comboDepartment";
+            this->comboDepartment->Size = System::Drawing::Size(236, 24);
+            this->comboDepartment->TabIndex = 9;
+
+            this->chkAvailability->Location = System::Drawing::Point(167, 314);
+            this->chkAvailability->Size = System::Drawing::Size(100, 24);
+            this->chkAvailability->Text = L"Available";
+            this->chkAvailability->Checked = true;
+            // 
             // btnAdd
             // 
-            this->btnAdd->Location = System::Drawing::Point(23, 305);
+            this->btnAdd->Location = System::Drawing::Point(23, 346);
             this->btnAdd->Margin = System::Windows::Forms::Padding(4, 3, 4, 3);
             this->btnAdd->Name = L"btnAdd";
             this->btnAdd->Size = System::Drawing::Size(95, 30);
             this->btnAdd->TabIndex = 10;
             this->btnAdd->Text = L"Add";
+            this->btnAdd->Click += gcnew System::EventHandler(this, &Course_Management::btnAdd_Click);
             // 
             // btnUpdate
             // 
-            this->btnUpdate->Location = System::Drawing::Point(130, 305);
+            this->btnUpdate->Location = System::Drawing::Point(130, 346);
             this->btnUpdate->Margin = System::Windows::Forms::Padding(4, 3, 4, 3);
             this->btnUpdate->Name = L"btnUpdate";
             this->btnUpdate->Size = System::Drawing::Size(95, 30);
             this->btnUpdate->TabIndex = 11;
             this->btnUpdate->Text = L"Update";
+            this->btnUpdate->Click += gcnew System::EventHandler(this, &Course_Management::btnUpdate_Click);
             // 
             // btnDelete
             // 
-            this->btnDelete->Location = System::Drawing::Point(236, 305);
+            this->btnDelete->Location = System::Drawing::Point(236, 346);
             this->btnDelete->Margin = System::Windows::Forms::Padding(4, 3, 4, 3);
             this->btnDelete->Name = L"btnDelete";
             this->btnDelete->Size = System::Drawing::Size(95, 30);
             this->btnDelete->TabIndex = 12;
             this->btnDelete->Text = L"Delete";
+            this->btnDelete->Click += gcnew System::EventHandler(this, &Course_Management::btnDelete_Click);
             // 
             // btnClear
             // 
-            this->btnClear->Location = System::Drawing::Point(343, 305);
+            this->btnClear->Location = System::Drawing::Point(343, 346);
             this->btnClear->Margin = System::Windows::Forms::Padding(4, 3, 4, 3);
             this->btnClear->Name = L"btnClear";
             this->btnClear->Size = System::Drawing::Size(95, 30);
             this->btnClear->TabIndex = 13;
             this->btnClear->Text = L"Clear";
+            this->btnClear->Click += gcnew System::EventHandler(this, &Course_Management::btnClear_Click);
             // 
             // txtSearch
             // 
@@ -244,6 +283,7 @@ namespace university {
             this->btnSearch->Size = System::Drawing::Size(95, 24);
             this->btnSearch->TabIndex = 2;
             this->btnSearch->Text = L"Search";
+            this->btnSearch->Click += gcnew System::EventHandler(this, &Course_Management::btnSearch_Click);
             // 
             // dataGridCourses
             // 
@@ -276,15 +316,6 @@ namespace university {
             this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
             this->Text = L"Course Management";
             this->Load += gcnew System::EventHandler(this, &Course_Management::Course_Management_Load);
-
-
-            this->btnAdd->Click += gcnew System::EventHandler(this, &Course_Management::btnAdd_Click);
-            this->btnUpdate->Click += gcnew System::EventHandler(this, &Course_Management::btnUpdate_Click);
-            this->btnDelete->Click += gcnew System::EventHandler(this, &Course_Management::btnDelete_Click);
-            this->btnSearch->Click += gcnew System::EventHandler(this, &Course_Management::btnSearch_Click);
-            this->btnClear->Click += gcnew System::EventHandler(this, &Course_Management::btnClear_Click);
-            this->dataGridCourses->CellClick += gcnew DataGridViewCellEventHandler(this, &Course_Management::dataGridCourses_CellClick);
-
             this->groupBoxCourseDetails->ResumeLayout(false);
             this->groupBoxCourseDetails->PerformLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numCredits))->EndInit();
