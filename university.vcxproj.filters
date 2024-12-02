@@ -33,9 +33,6 @@
     <ClCompile Include="Enter_Grade.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DatabaseManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="MDIForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -57,7 +54,16 @@
     <ClCompile Include="Enrollment.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="View_All_Users.cpp">
+    <ClCompile Include="View_All_Students.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Register_User.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Manage_Faculty.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Manage_Department.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -80,9 +86,6 @@
     <ClInclude Include="Enter_Grade.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DatabaseManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MDIForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -101,7 +104,28 @@
     <ClInclude Include="Enrollment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="View_All_Users.h">
+    <ClInclude Include="View_All_Students.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="db_conn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="student.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="faculty.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="admin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Register_User.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Manage_Faculty.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Manage_Department.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

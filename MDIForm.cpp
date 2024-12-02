@@ -1,6 +1,20 @@
 #include "MDIForm.h"
 
 namespace university {
+	System::Void MDIForm:: registerFacultyToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		Manage_Faculty^ frmManageFaculty = gcnew Manage_Faculty();
+		frmManageFaculty->MdiParent = this;
+		frmManageFaculty->Show();
+	}
+
+	System::Void MDIForm::viewAllDepartmentsToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		Manage_Department^ frmManageDep = gcnew Manage_Department();
+		frmManageDep->MdiParent = this;
+		frmManageDep->Show();
+	}
+
+
 	System::Void MDIForm::registerCoursesToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		Register_Course^ frmReg = gcnew Register_Course();
 		frmReg->MdiParent = this;
@@ -43,7 +57,7 @@ namespace university {
 	}
 
 	System::Void MDIForm::viewAllUsersToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		View_All_Users^ frmUsers = gcnew View_All_Users();
+		View_All_Students^ frmUsers = gcnew View_All_Students();
 		frmUsers->MdiParent = this;
 		frmUsers->Show();
 	}
@@ -53,6 +67,20 @@ namespace university {
 		Course_Management^ frmcManage = gcnew Course_Management();
 		frmcManage->MdiParent = this;
 		frmcManage->Show();
+	}
+
+	System::Void MDIForm::registerStudentsToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		Register_User^ frmcRegisterUser = gcnew Register_User();
+		frmcRegisterUser->MdiParent = this;
+		frmcRegisterUser->Show();
+	}
+
+
+	System::Void MDIForm::viewAllStudentsToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e)
+	{
+		View_All_Students^ frmAllStudents = gcnew View_All_Students();
+		frmAllStudents->MdiParent = this;
+		frmAllStudents->Show();
 	}
 }
 

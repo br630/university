@@ -81,7 +81,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies />
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
     </Link>
   </ItemDefinitionGroup>
@@ -114,7 +114,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\v461\mysql.data.dll</HintPath>
+      <HintPath>university\v461\mysql.data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -126,18 +126,20 @@
   <ItemGroup>
     <ClCompile Include="Access_Rosters.cpp" />
     <ClCompile Include="Course_Management.cpp" />
-    <ClCompile Include="DatabaseManager.cpp" />
     <ClCompile Include="Enrollment.cpp" />
     <ClCompile Include="Enter_Grade.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Manage_Course_Materials.cpp" />
+    <ClCompile Include="Manage_Department.cpp" />
     <ClCompile Include="Manage_Profile.cpp" />
     <ClCompile Include="MDIForm.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Register_Course.cpp" />
+    <ClCompile Include="Register_User.cpp" />
     <ClCompile Include="Signup.cpp" />
+    <ClCompile Include="Manage_Faculty.cpp" />
     <ClCompile Include="Students_object.cpp" />
-    <ClCompile Include="View_All_Users.cpp" />
+    <ClCompile Include="View_All_Students.cpp" />
     <ClCompile Include="View_Grade.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -147,15 +149,23 @@
     <ClInclude Include="Course_Management.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="DatabaseManager.h" />
+    <ClInclude Include="db_conn.h" />
     <ClInclude Include="Enrollment.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Enter_Grade.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="faculty.h" />
+    <ClInclude Include="admin.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="Manage_Course_Materials.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Manage_Department.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Manage_Faculty.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Manage_Profile.h">
@@ -168,10 +178,14 @@
     <ClInclude Include="Register_Course.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Register_User.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Signup.h">
       <FileType>CppForm</FileType>
     </ClInclude>
-    <ClInclude Include="View_All_Users.h">
+    <ClInclude Include="student.h" />
+    <ClInclude Include="View_All_Students.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="View_Grade.h">
@@ -194,6 +208,12 @@
     <EmbeddedResource Include="Manage_Course_Materials.resx">
       <DependentUpon>Manage_Course_Materials.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Manage_Department.resx">
+      <DependentUpon>Manage_Department.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manage_Faculty.resx">
+      <DependentUpon>Manage_Faculty.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Manage_Profile.resx">
       <DependentUpon>Manage_Profile.h</DependentUpon>
     </EmbeddedResource>
@@ -204,11 +224,14 @@
     <EmbeddedResource Include="Register_Course.resx">
       <DependentUpon>Register_Course.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Register_User.resx">
+      <DependentUpon>Register_User.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Signup.resx">
       <DependentUpon>Signup.h</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View_All_Users.resx">
-      <DependentUpon>View_All_Users.h</DependentUpon>
+    <EmbeddedResource Include="View_All_Students.resx">
+      <DependentUpon>View_All_Students.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View_Grade.resx">
       <DependentUpon>View_Grade.h</DependentUpon>

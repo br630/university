@@ -1,15 +1,18 @@
 #include "MyForm.h"
 #include "Signup.h"
 #include "MDIForm.h"
+#include "db_conn.h"
+#include "student.h"
+#include "faculty.h"
+#include "admin.h"
+
 
 namespace university {
     MyForm::MyForm(void)
     {
+        // FOR Bryan: Created a class "DatabaseManager" found in db_conn.h which takes care of all the connections to
+        // the Mysql server.
         InitializeComponent();
-        sqlConn = gcnew MySqlConnection();
-        sqlCmd = gcnew MySqlCommand();
-        connectionString = "datasource=localhost;port=3306;username=root;password=;database=university_management;";
-        sqlConn->ConnectionString = connectionString;
     }
 
     System::Void MyForm::btnCancel_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -18,35 +21,112 @@ namespace university {
 
     System::Void MyForm::btnLogin_Click(System::Object^ sender, System::EventArgs^ e) {
         try {
-            String^ email = txtuserName->Text;  // We're still using txtuserName but it will contain email
+            String^ email = txtuserName->Text;
             String^ password = txtPassword->Text;
-
             if (String::IsNullOrEmpty(email) || String::IsNullOrEmpty(password)) {
                 MessageBox::Show("Please enter both email and password!", "Error",
                     MessageBoxButtons::OK, MessageBoxIcon::Warning);
                 return;
             }
 
-            sqlConn->Open();
-            sqlCmd->Connection = sqlConn;
-            sqlCmd->CommandText = "SELECT * FROM users WHERE email = @email AND password = @password;";
-            sqlCmd->Parameters->Clear();
-            sqlCmd->Parameters->AddWithValue("@email", email);
-            sqlCmd->Parameters->AddWithValue("@password", password);
+            DatabaseManager^ dbManager = DatabaseManager::GetInstance();
+            MySqlConnection^ conn = dbManager->GetConnection();
 
-            sqlRd = sqlCmd->ExecuteReader();
-            if (sqlRd->Read()) {
-                sqlRd->Close();
-                sqlConn->Close();
-                MessageBox::Show("Login successful!", "Success",
-                    MessageBoxButtons::OK, MessageBoxIcon::Information);
+            MySqlCommand^ cmd = gcnew MySqlCommand("SELECT * FROM users WHERE email = @email AND password = @password;", conn);
+            cmd->Parameters->AddWithValue("@email", email);
+            cmd->Parameters->AddWithValue("@password", password);
+
+            dbManager->ConnectToDatabase();
+            MySqlDataReader^ reader = cmd->ExecuteReader();
+
+            if (reader->Read()) {
+                String^ role = reader["role"]->ToString();
+                int userID = Convert::ToInt32(reader["userID"]);
+                String^ firstName = reader["firstName"]->ToString();
+                String^ lastName = reader["lastName"]->ToString();
+
+                reader->Close();
                 MDIForm^ mdiParent = gcnew MDIForm();
+
+                if (role == "Student") {
+                    cmd = gcnew MySqlCommand("SELECT * FROM students WHERE userID = @userID;", conn);
+                    cmd->Parameters->AddWithValue("@userID", userID);
+                    reader = cmd->ExecuteReader();
+
+                    if (reader->Read()) {
+                        Student^ currentStudent = Student::GetInstance();
+                        currentStudent->SetUserID(userID);
+                        currentStudent->SetFirstName(firstName);
+                        currentStudent->SetLastName(lastName);
+                        currentStudent->SetEmail(email);
+                        currentStudent->SetRole(role);
+                        currentStudent->SetStudentID(Convert::ToInt32(reader["studentID"]));
+                        currentStudent->SetDateOfBirth(Convert::ToDateTime(reader["dateOfBirth"]));
+                        currentStudent->SetMajor(reader["major"]->ToString());
+                        currentStudent->SetEnrollmentDate(Convert::ToDateTime(reader["enrollmentDate"]));
+
+                        if (!reader->IsDBNull(reader->GetOrdinal("picture"))) {
+                            array<Byte>^ pic = (array<Byte>^)reader["picture"];
+                            currentStudent->SetPicture(pic);
+                        }
+
+                        MessageBox::Show("Welcome Student " + currentStudent->GetFullName() + "!", "Success",
+                            MessageBoxButtons::OK, MessageBoxIcon::Information);
+
+                        mdiParent->SetUserAccess(currentStudent->GetRole());
+                    }
+                }
+                else if (role == "Faculty") {
+                    cmd = gcnew MySqlCommand("SELECT * FROM faculty WHERE userID = @userID;", conn);
+                    cmd->Parameters->AddWithValue("@userID", userID);
+                    reader = cmd->ExecuteReader();
+
+                    if (reader->Read()) {
+                        Faculty^ currentFaculty = Faculty::GetInstance();
+                        currentFaculty->SetUserID(userID);
+                        currentFaculty->SetFirstName(firstName);
+                        currentFaculty->SetLastName(lastName);
+                        currentFaculty->SetEmail(email);
+                        currentFaculty->SetRole(role);
+                        currentFaculty->SetFacultyID(Convert::ToInt32(reader["facultyID"]));
+                        currentFaculty->SetDepartment(reader["department"]->ToString());
+                        currentFaculty->SetDateOfAppointment(Convert::ToDateTime(reader["dateOfAppointment"]));
+
+                        MessageBox::Show("Welcome Faculty " + currentFaculty->GetFullName() + "!", "Success",
+                            MessageBoxButtons::OK, MessageBoxIcon::Information);
+
+                        mdiParent->SetUserAccess(currentFaculty->GetRole());
+                    }
+                }
+                else if (role == "Administrator") {
+                    cmd = gcnew MySqlCommand("SELECT * FROM administrators WHERE userID = @userID;", conn);
+                    cmd->Parameters->AddWithValue("@userID", userID);
+                    reader = cmd->ExecuteReader();
+
+                    if (reader->Read()) {
+                        Administrator^ currentAdmin = Administrator::GetInstance();
+                        currentAdmin->SetUserID(userID);
+                        currentAdmin->SetFirstName(firstName);
+                        currentAdmin->SetLastName(lastName);
+                        currentAdmin->SetEmail(email);
+                        currentAdmin->SetRole(role);
+                        currentAdmin->SetAdminID(Convert::ToInt32(reader["adminID"]));
+
+                        MessageBox::Show("Welcome Administrator " + currentAdmin->GetFullName() + "!", "Success",
+                            MessageBoxButtons::OK, MessageBoxIcon::Information);
+
+                        mdiParent->SetUserAccess(currentAdmin->GetRole());
+                    }
+                }
+
+                reader->Close();
+                dbManager->CloseConnection();
                 mdiParent->Show();
                 this->Hide();
             }
             else {
-                sqlRd->Close();
-                sqlConn->Close();
+                reader->Close();
+                dbManager->CloseConnection();
                 MessageBox::Show("Invalid email or password!", "Error",
                     MessageBoxButtons::OK, MessageBoxIcon::Error);
             }
@@ -56,8 +136,7 @@ namespace university {
                 MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
         finally {
-            if (sqlConn->State == ConnectionState::Open)
-                sqlConn->Close();
+            DatabaseManager::GetInstance()->CloseConnection();
         }
     }
 
