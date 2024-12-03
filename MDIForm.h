@@ -29,10 +29,15 @@ namespace university {
 	public ref class MDIForm : public System::Windows::Forms::Form
 	{
 	private:
+		int studentID;
 		int currentFacultyID;
 	public:
 		void SetFacultyID(int facultyID) {
 			this->currentFacultyID = facultyID;
+		}
+
+		void SetStudentID(int studID) {  
+			this->studentID = studID;
 		}
 	public:
 		MDIForm(void)

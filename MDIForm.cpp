@@ -63,7 +63,7 @@ namespace university {
 	}
 
 	System::Void MDIForm::enrollmentToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		Enrollment^ frmEnroll = gcnew Enrollment();
+		Enrollment^ frmEnroll = gcnew Enrollment(studentID);
 		frmEnroll->MdiParent = this;
 		frmEnroll->Show();
 	}
