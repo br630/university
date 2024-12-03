@@ -95,6 +95,12 @@ namespace university {
 		frmAllStudents->MdiParent = this;
 		frmAllStudents->Show();
 	}
+	System::Void MDIForm::manageFacProfileToolStripMenuItem1_Click(System::Object^ sender, System::EventArgs^ e) {
+		Student^ currentStudent = Student::GetInstance();
+		Manage_Faculty_Profile^ frmMan = gcnew Manage_Faculty_Profile(currentStudent->GetStudentID());
+		frmMan->MdiParent = this;
+		frmMan->Show();
+	}
 }
 
 

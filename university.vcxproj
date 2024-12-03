@@ -132,6 +132,7 @@
     <ClCompile Include="Manage_Course_Materials.cpp" />
     <ClCompile Include="Manage_Department.cpp" />
     <ClCompile Include="Manage_Enrollments.cpp" />
+    <ClCompile Include="Manage_Faculty_Profile.cpp" />
     <ClCompile Include="Manage_Profile.cpp" />
     <ClCompile Include="MDIForm.cpp" />
     <ClCompile Include="MyForm.cpp" />
@@ -170,6 +171,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Manage_Faculty.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Manage_Faculty_Profile.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Manage_Profile.h">
@@ -220,6 +224,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Manage_Faculty.resx">
       <DependentUpon>Manage_Faculty.h</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Manage_Faculty_Profile.resx">
+      <DependentUpon>Manage_Faculty_Profile.h</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manage_Profile.resx">
       <DependentUpon>Manage_Profile.h</DependentUpon>
