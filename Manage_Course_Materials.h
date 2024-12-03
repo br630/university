@@ -1,4 +1,5 @@
-#pragma once
+#pragma once;
+#include "db_conn.h";
 
 namespace university {
     using namespace System;
@@ -7,6 +8,8 @@ namespace university {
     using namespace System::Windows::Forms;
     using namespace System::Data;
     using namespace System::Drawing;
+    using namespace System::Data::SqlClient;
+    using namespace MySql::Data::MySqlClient;
 
     public ref class Manage_Course_Materials : public System::Windows::Forms::Form {
     public:
@@ -212,7 +215,6 @@ namespace university {
             this->btnUpdateMaterial->TabIndex = 13;
             this->btnUpdateMaterial->Text = L"Update";
             this->btnUpdateMaterial->UseVisualStyleBackColor = true;
-            this->btnUpdateMaterial->Click += gcnew System::EventHandler(this, &Manage_Course_Materials::btnUpdateMaterial_Click);
             // 
             // btnDeleteMaterial
             // 
@@ -251,16 +253,53 @@ namespace university {
             try {
                 this->treeViewMaterials->Nodes->Clear();
 
-                TreeNode^ courseNode = this->treeViewMaterials->Nodes->Add("CS101 - Programming Fundamentals");
-                courseNode->Nodes->Add("Textbooks")->Nodes->Add("Introduction to Programming with Python");
-                courseNode->Nodes->Add("Reference Materials")->Nodes->Add("Python Documentation");
-                courseNode->Nodes->Add("Online Resources")->Nodes->Add("Course Website");
+                String^ connString = "Server=localhost;Database=university;Uid=root;Pwd=;";
+                MySqlConnection^ connection = gcnew MySqlConnection(connString);
+                connection->Open();
 
-                courseNode = this->treeViewMaterials->Nodes->Add("CS102 - Data Structures");
-                courseNode->Nodes->Add("Textbooks")->Nodes->Add("Data Structures and Algorithms");
-                courseNode->Nodes->Add("Course Notes")->Nodes->Add("Lecture Notes Week 1-15");
+                String^ query = "SELECT * FROM course_materials";
+                MySqlCommand^ command = gcnew MySqlCommand(query, connection);
+                MySqlDataReader^ reader = command->ExecuteReader();
 
+                while (reader->Read()) {
+                    int courseID = reader->GetInt32("courseID");
+                    String^ materialType = reader->GetString("materialType");
+                    String^ title = reader->GetString("title");
+                    bool isRequired = reader->GetBoolean("isRequired");
+
+                    TreeNode^ courseNode = nullptr;
+                    TreeNode^ materialNode = nullptr;
+
+                    // Find or create the course node
+                    for each (TreeNode ^ node in this->treeViewMaterials->Nodes) {
+                        if (node->Text == "Course " + courseID.ToString()) {
+                            courseNode = node;
+                            break;
+                        }
+                    }
+                    if (courseNode == nullptr) {
+                        courseNode = this->treeViewMaterials->Nodes->Add("Course " + courseID.ToString());
+                    }
+
+                    // Find or create the material type node
+                    for each (TreeNode ^ node in courseNode->Nodes) {
+                        if (node->Text == materialType) {
+                            materialNode = node;
+                            break;
+                        }
+                    }
+                    if (materialNode == nullptr) {
+                        materialNode = courseNode->Nodes->Add(materialType);
+                    }
+
+                    // Add the material to the tree
+                    TreeNode^ materialItem = materialNode->Nodes->Add(title);
+                    materialItem->Checked = isRequired;
+                }
+
+                reader->Close();
                 this->treeViewMaterials->ExpandAll();
+                connection->Close();
             }
             catch (Exception^ ex) {
                 MessageBox::Show("Error loading materials: " + ex->Message);
@@ -290,48 +329,29 @@ namespace university {
             }
 
             try {
-                TreeNode^ typeNode = nullptr;
-                if (treeViewMaterials->SelectedNode != nullptr) {
-                    TreeNode^ courseNode = treeViewMaterials->SelectedNode;
-                    while (courseNode->Parent != nullptr) {
-                        courseNode = courseNode->Parent;
-                    }
+                String^ connString = "Server=localhost;Database=university;Uid=root;Pwd=;";
+                MySqlConnection^ connection = gcnew MySqlConnection(connString);
+                connection->Open();
 
-                    for each (TreeNode ^ node in courseNode->Nodes) {
-                        if (node->Text == comboMaterialType->Text) {
-                            typeNode = node;
-                            break;
-                        }
-                    }
+                String^ query = "INSERT INTO course_materials (courseID, materialType, title, author, isbn, description, isRequired) VALUES (@courseID, @materialType, @title, @author, @isbn, @description, @isRequired)";
+                MySqlCommand^ command = gcnew MySqlCommand(query, connection);
+                command->Parameters->AddWithValue("@courseID", 1); // Replace with actual courseID
+                command->Parameters->AddWithValue("@materialType", comboMaterialType->Text);
+                command->Parameters->AddWithValue("@title", txtBookTitle->Text);
+                command->Parameters->AddWithValue("@author", txtBookAuthor->Text);
+                command->Parameters->AddWithValue("@isbn", txtISBN->Text);
+                command->Parameters->AddWithValue("@description", txtDescription->Text);
+                command->Parameters->AddWithValue("@isRequired", chkRequired->Checked);
+                command->ExecuteNonQuery();
 
-                    if (typeNode == nullptr) {
-                        typeNode = courseNode->Nodes->Add(comboMaterialType->Text);
-                    }
+                MessageBox::Show("Material added successfully.");
+                ClearForm();
+                LoadMaterialsData();
 
-                    typeNode->Nodes->Add(txtBookTitle->Text);
-                    MessageBox::Show("Material added successfully.");
-                    ClearForm();
-                }
+                connection->Close();
             }
             catch (Exception^ ex) {
                 MessageBox::Show("Error adding material: " + ex->Message);
-            }
-        }
-
-        System::Void btnUpdateMaterial_Click(System::Object^ sender, System::EventArgs^ e) {
-            if (treeViewMaterials->SelectedNode == nullptr ||
-                treeViewMaterials->SelectedNode->Parent == nullptr ||
-                treeViewMaterials->SelectedNode->Parent->Parent == nullptr) {
-                MessageBox::Show("Please select a material to update.");
-                return;
-            }
-
-            try {
-                treeViewMaterials->SelectedNode->Text = txtBookTitle->Text;
-                MessageBox::Show("Material updated successfully.");
-            }
-            catch (Exception^ ex) {
-                MessageBox::Show("Error updating material: " + ex->Message);
             }
         }
 
@@ -345,15 +365,58 @@ namespace university {
                 "Confirm Delete",
                 MessageBoxButtons::YesNo) == System::Windows::Forms::DialogResult::Yes) {
                 try {
+                    String^ connString = "Server=localhost;Database=university;Uid=root;Pwd=;";
+                    MySqlConnection^ connection = gcnew MySqlConnection(connString);
+                    connection->Open();
+
+                    int materialID = GetMaterialID(treeViewMaterials->SelectedNode->Text,
+                        treeViewMaterials->SelectedNode->Parent->Text);
+
+                    String^ query = "DELETE FROM course_materials WHERE materialID = @materialID";
+                    MySqlCommand^ command = gcnew MySqlCommand(query, connection);  // Changed from SqlCommand to MySqlCommand
+                    command->Parameters->AddWithValue("@materialID", materialID);
+                    command->ExecuteNonQuery();
+
                     treeViewMaterials->SelectedNode->Remove();
                     MessageBox::Show("Material deleted successfully.");
                     ClearForm();
+                    LoadMaterialsData();
+
+                    connection->Close();
                 }
                 catch (Exception^ ex) {
                     MessageBox::Show("Error deleting material: " + ex->Message);
                 }
             }
         }
+
+    private:
+    private: int GetMaterialID(String^ title, String^ materialType) {
+        try {
+            String^ connString = "Server=localhost;Database=university;Uid=root;Pwd=;";
+            MySqlConnection^ connection = gcnew MySqlConnection(connString);
+            connection->Open();
+
+            String^ query = "SELECT materialID FROM course_materials WHERE title = @title AND materialType = @materialType";
+            MySqlCommand^ command = gcnew MySqlCommand(query, connection);
+            command->Parameters->AddWithValue("@title", title);
+            command->Parameters->AddWithValue("@materialType", materialType);
+            MySqlDataReader^ reader = command->ExecuteReader();
+
+            int materialID = -1;
+            if (reader->Read()) {
+                materialID = reader->GetInt32("materialID");
+            }
+
+            reader->Close();
+            connection->Close();
+            return materialID;
+        }
+        catch (Exception^ ex) {
+            MessageBox::Show("Error getting material ID: " + ex->Message);
+            return -1;
+        }
+    }
     private: System::Void Manage_Course_Materials_Load(System::Object^ sender, System::EventArgs^ e) {
     }
 };

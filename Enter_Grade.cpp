@@ -1,79 +1,79 @@
-// Enter_Grade.cpp
-#include "Enter_Grade.h"
+#include "Enter_Grade.h";
+#include "db_conn.h";
 
 namespace university {
-    void Enter_Grade::Enter_Grade_Load(System::Object^ sender, System::EventArgs^ e) {
-        LoadCourses();
-        SetupDataGridView();
-        btnSubmit->Enabled = false;
-        btnUpdate->Enabled = false;
-    }
-
-    void Enter_Grade::SetupDataGridView() {
-        dataGridGrades->Columns->Add("StudentID", "Student ID");
-        dataGridGrades->Columns->Add("StudentName", "Student Name");
-        dataGridGrades->Columns->Add("Grade", "Grade");
-        dataGridGrades->Columns->Add("SubmissionDate", "Submission Date");
-        dataGridGrades->Columns->Add("Notes", "Notes");
-    }
-
-    System::Void Enter_Grade::dataGridGrades_CellClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e) {
-        if (e->RowIndex >= 0) {
-            txtStudentID->Text = dataGridGrades->Rows[e->RowIndex]->Cells["StudentID"]->Value->ToString();
-            txtStudentName->Text = dataGridGrades->Rows[e->RowIndex]->Cells["StudentName"]->Value->ToString();
-            if (dataGridGrades->Rows[e->RowIndex]->Cells["Grade"]->Value != nullptr) {
-                txtGrade->Text = dataGridGrades->Rows[e->RowIndex]->Cells["Grade"]->Value->ToString();
-            }
-            else {
-                txtGrade->Clear();
-            }
-            if (dataGridGrades->Rows[e->RowIndex]->Cells["Notes"]->Value != nullptr) {
-                txtNotes->Text = dataGridGrades->Rows[e->RowIndex]->Cells["Notes"]->Value->ToString();
-            }
-            else {
-                txtNotes->Clear();
-            }
-        }
-    }
-
     void Enter_Grade::LoadCourses() {
-        try {
-            DatabaseManager^ dbManager = DatabaseManager::GetInstance();
-            dbManager->ConnectToDatabase();
-            MySqlConnection^ conn = dbManager->GetConnection();
+    try {
+        DatabaseManager^ dbManager = DatabaseManager::GetInstance();
+        dbManager->ConnectToDatabase();
+        MySqlConnection^ conn = dbManager->GetConnection();
 
-            String^ query = "SELECT c.courseID, c.courseName FROM courses c "
-                "INNER JOIN facultycourses fc ON c.courseID = fc.courseID "
-                "WHERE fc.facultyID = @facultyID";
+        // First check user role and get faculty info
+        String^ userQuery = "SELECT u.userID, f.facultyID "
+                          "FROM users u "
+                          "INNER JOIN faculty f ON u.userID = f.userID "
+                          "WHERE u.role = 'Faculty' AND f.facultyID = @facultyID";
 
-            MySqlCommand^ cmd = gcnew MySqlCommand(query, conn);
-            cmd->Parameters->AddWithValue("@facultyID", currentFacultyID);
+        MySqlCommand^ userCmd = gcnew MySqlCommand(userQuery, conn);
+        userCmd->Parameters->AddWithValue("@facultyID", currentFacultyID);
 
-            MySqlDataReader^ reader = cmd->ExecuteReader();
-
-            comboCourses->Items->Clear();
-            while (reader->Read()) {
-                String^ courseInfo = String::Format("{0} - {1}",
-                    reader["courseID"]->ToString(),
-                    reader["courseName"]->ToString());
-                comboCourses->Items->Add(courseInfo);
-            }
-
-            reader->Close();
-
-            comboSemester->Items->Clear();
-            comboSemester->Items->Add("Semester1");
-            comboSemester->Items->Add("Semester2");
-
+        MySqlDataReader^ userReader = userCmd->ExecuteReader();
+        
+        if (!userReader->Read()) {
+            MessageBox::Show("Invalid faculty credentials or insufficient permissions.");
+            userReader->Close();
             dbManager->CloseConnection();
+            return;
         }
-        catch (MySqlException^ ex) {
-            MessageBox::Show(ex->Message);
+
+        int facultyID = Convert::ToInt32(userReader["facultyID"]);
+        userReader->Close();
+
+        // Now get the courses for this faculty
+        String^ courseQuery = "SELECT DISTINCT c.courseID, c.courseName "
+                            "FROM courses c "
+                            "INNER JOIN facultycourses fc ON c.courseID = fc.courseID "
+                            "WHERE fc.facultyID = @facultyID";
+
+        MySqlCommand^ courseCmd = gcnew MySqlCommand(courseQuery, conn);
+        courseCmd->Parameters->AddWithValue("@facultyID", facultyID);
+
+        MySqlDataReader^ courseReader = courseCmd->ExecuteReader();
+        
+        comboCourses->Items->Clear();
+        bool hasItems = false;
+        
+        while (courseReader->Read()) {
+            String^ courseInfo = String::Format("{0} - {1}",
+                courseReader["courseID"]->ToString(),
+                courseReader["courseName"]->ToString());
+            comboCourses->Items->Add(courseInfo);
+            hasItems = true;
         }
+
+        courseReader->Close();
+
+        if (!hasItems) {
+            MessageBox::Show("No courses found for this faculty member.");
+        }
+
+        // Set up semesters
+        comboSemester->Items->Clear();
+        comboSemester->Items->Add("Semester1");
+        comboSemester->Items->Add("Semester2");
+
+        dbManager->CloseConnection();
     }
+    catch (MySqlException^ ex) {
+        MessageBox::Show("Database error: " + ex->Message);
+    }
+    catch (Exception^ ex) {
+        MessageBox::Show("An error occurred: " + ex->Message);
+    }
+}
 
     void Enter_Grade::LoadStudentGrades() {
-        if (!ValidateSelections()) return;
+        if (comboCourses->SelectedIndex == -1 || comboSemester->SelectedIndex == -1) return;
 
         try {
             String^ selectedCourse = comboCourses->SelectedItem->ToString();
@@ -84,7 +84,7 @@ namespace university {
             MySqlConnection^ conn = dbManager->GetConnection();
 
             String^ query = "SELECT e.studentID, CONCAT(u.firstName, ' ', u.lastName) as studentName, "
-                "e.grade, e.submissionDate, e.notes FROM enrollment e "
+                "e.grade FROM enrollment e "
                 "INNER JOIN students s ON e.studentID = s.studentID "
                 "INNER JOIN users u ON s.userID = u.userID "
                 "WHERE e.courseID = @courseID AND e.semester = @semester";
@@ -100,9 +100,7 @@ namespace university {
                 dataGridGrades->Rows->Add(
                     reader["studentID"]->ToString(),
                     reader["studentName"]->ToString(),
-                    reader["grade"]->ToString(),
-                    reader["submissionDate"]->ToString(),
-                    reader["notes"]->ToString()
+                    reader["grade"]->ToString()
                 );
             }
 
@@ -112,18 +110,6 @@ namespace university {
         catch (MySqlException^ ex) {
             MessageBox::Show(ex->Message);
         }
-    }
-
-    bool Enter_Grade::ValidateSelections() {
-        if (comboCourses->SelectedItem == nullptr) {
-            MessageBox::Show("Please select a course first.");
-            return false;
-        }
-        if (comboSemester->SelectedItem == nullptr) {
-            MessageBox::Show("Please select a semester.");
-            return false;
-        }
-        return true;
     }
 
     void Enter_Grade::SubmitGrade() {
@@ -140,35 +126,26 @@ namespace university {
             dbManager->ConnectToDatabase();
             MySqlConnection^ conn = dbManager->GetConnection();
 
-            String^ query = "UPDATE enrollment SET grade = @grade, notes = @notes, "
-                "submissionDate = NOW(), assignedBy = @facultyID "
+            String^ query = "UPDATE enrollment SET grade = @grade, assignedBy = @facultyID "
                 "WHERE studentID = @studentID AND courseID = @courseID AND semester = @semester";
 
             MySqlCommand^ cmd = gcnew MySqlCommand(query, conn);
             cmd->Parameters->AddWithValue("@grade", txtGrade->Text);
-            cmd->Parameters->AddWithValue("@notes", txtNotes->Text);
             cmd->Parameters->AddWithValue("@facultyID", currentFacultyID);
             cmd->Parameters->AddWithValue("@studentID", Int32::Parse(txtStudentID->Text));
             cmd->Parameters->AddWithValue("@courseID", courseID);
             cmd->Parameters->AddWithValue("@semester", comboSemester->Text);
 
-            int rowsAffected = cmd->ExecuteNonQuery();
-            if (rowsAffected > 0) {
-                MessageBox::Show("Grade submitted successfully!");
-                LoadStudentGrades();
-                ClearForm();
-            }
-            else {
-                MessageBox::Show("No matching record found to update.");
-            }
+            cmd->ExecuteNonQuery();
+            MessageBox::Show("Grade submitted successfully!");
 
             dbManager->CloseConnection();
+            LoadStudentGrades();
         }
         catch (MySqlException^ ex) {
             MessageBox::Show(ex->Message);
         }
     }
-
     void Enter_Grade::UpdateGrade() {
         if (String::IsNullOrEmpty(txtStudentID->Text) || String::IsNullOrEmpty(txtGrade->Text)) {
             MessageBox::Show("Please select a student and enter a grade.");
@@ -183,13 +160,11 @@ namespace university {
             dbManager->ConnectToDatabase();
             MySqlConnection^ conn = dbManager->GetConnection();
 
-            String^ query = "UPDATE enrollment SET grade = @grade, notes = @notes, "
-                "submissionDate = NOW(), assignedBy = @facultyID "
+            String^ query = "UPDATE enrollment SET grade = @grade, assignedBy = @facultyID "
                 "WHERE studentID = @studentID AND courseID = @courseID AND semester = @semester";
 
             MySqlCommand^ cmd = gcnew MySqlCommand(query, conn);
             cmd->Parameters->AddWithValue("@grade", txtGrade->Text);
-            cmd->Parameters->AddWithValue("@notes", txtNotes->Text);
             cmd->Parameters->AddWithValue("@facultyID", currentFacultyID);
             cmd->Parameters->AddWithValue("@studentID", Int32::Parse(txtStudentID->Text));
             cmd->Parameters->AddWithValue("@courseID", courseID);
@@ -199,7 +174,6 @@ namespace university {
             if (rowsAffected > 0) {
                 MessageBox::Show("Grade updated successfully!");
                 LoadStudentGrades();
-                ClearForm();
             }
             else {
                 MessageBox::Show("No matching record found to update.");
@@ -210,13 +184,6 @@ namespace university {
         catch (MySqlException^ ex) {
             MessageBox::Show(ex->Message);
         }
-    }
-
-    void Enter_Grade::ClearForm() {
-        txtStudentID->Clear();
-        txtStudentName->Clear();
-        txtGrade->Clear();
-        txtNotes->Clear();
     }
 
     System::Void Enter_Grade::btnSubmit_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -232,26 +199,17 @@ namespace university {
     }
 
     System::Void Enter_Grade::comboCourses_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-        btnSubmit->Enabled = (comboCourses->SelectedIndex != -1 && comboSemester->SelectedIndex != -1);
-        btnUpdate->Enabled = btnSubmit->Enabled;
-
-        if (btnSubmit->Enabled) {
+        if (comboSemester->SelectedIndex != -1) {
             LoadStudentGrades();
         }
     }
 
     System::Void Enter_Grade::comboSemester_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
-        btnSubmit->Enabled = (comboCourses->SelectedIndex != -1 && comboSemester->SelectedIndex != -1);
-        btnUpdate->Enabled = btnSubmit->Enabled;
-
-        if (btnSubmit->Enabled) {
+        if (comboCourses->SelectedIndex != -1) {
             LoadStudentGrades();
         }
     }
-
     System::Void Enter_Grade::btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
-        if (!ValidateSelections()) return;
-
         try {
             String^ searchTerm = txtSearch->Text->Trim();
             if (String::IsNullOrEmpty(searchTerm)) {
@@ -266,14 +224,12 @@ namespace university {
             dbManager->ConnectToDatabase();
             MySqlConnection^ conn = dbManager->GetConnection();
 
-            String^ query = "SELECT e.studentID, CONCAT(u.firstName, ' ', u.lastName) as studentName, "
-                "e.grade, e.submissionDate, e.notes FROM enrollment e "
-                "INNER JOIN students s ON e.studentID = s.studentID "
-                "INNER JOIN users u ON s.userID = u.userID "
-                "WHERE e.courseID = @courseID AND e.semester = @semester "
-                "AND (u.firstName LIKE @search OR u.lastName LIKE @search OR e.studentID LIKE @search)";
+            String^ userQuery = "SELECT u.userID, f.facultyID "
+                          "FROM users u "
+                          "INNER JOIN faculty f ON u.userID = f.userID "
+                          "WHERE u.role = 'Faculty' AND f.facultyID = @facultyID";
 
-            MySqlCommand^ cmd = gcnew MySqlCommand(query, conn);
+            MySqlCommand^ cmd = gcnew MySqlCommand(userQuery, conn);
             cmd->Parameters->AddWithValue("@courseID", courseID);
             cmd->Parameters->AddWithValue("@semester", comboSemester->Text);
             cmd->Parameters->AddWithValue("@search", "%" + searchTerm + "%");
@@ -285,9 +241,7 @@ namespace university {
                 dataGridGrades->Rows->Add(
                     reader["studentID"]->ToString(),
                     reader["studentName"]->ToString(),
-                    reader["grade"]->ToString(),
-                    reader["submissionDate"]->ToString(),
-                    reader["notes"]->ToString()
+                    reader["grade"]->ToString()
                 );
             }
 
@@ -298,5 +252,12 @@ namespace university {
             MessageBox::Show(ex->Message);
         }
     }
-};
+
+    void Enter_Grade::ClearForm() {
+        txtStudentID->Clear();
+        txtStudentName->Clear();
+        txtGrade->Clear();
+        txtNotes->Clear();
+    }
+}
 

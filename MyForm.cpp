@@ -91,7 +91,7 @@ namespace university {
                         currentFaculty->SetRole(role);
                         currentFaculty->SetFacultyID(facultyID);
                         currentFaculty->SetDepartment(reader["department"]->ToString());
-                        currentFaculty->SetDateOfAppointment(Convert::ToDateTime(reader["dateOfAppointment"]));
+                        // currentFaculty->SetDateOfAppointment(Convert::ToDateTime(reader["dateOfAppointment"]));
 
                         MessageBox::Show("Welcome Faculty " + currentFaculty->GetFullName() + "!", "Success",
                             MessageBoxButtons::OK, MessageBoxIcon::Information);
