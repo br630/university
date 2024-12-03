@@ -140,7 +140,10 @@ namespace university {
             // Head of Department Label and ComboBox
             this->lblHeadOfDepartment->Location = System::Drawing::Point(49, 226);
             this->lblHeadOfDepartment->Size = System::Drawing::Size(118, 22);
-            this->lblHeadOfDepartment->Text = L"Department Head:";
+
+            this->lblHeadOfDepartment->Name = L"lblHeadOfDepartment";
+            this->lblHeadOfDepartment->AutoSize = true;
+            this->lblHeadOfDepartment->Text = L"Department Head";
 
             this->comboHeadOfDepartment->Location = System::Drawing::Point(197, 225);
             this->comboHeadOfDepartment->Size = System::Drawing::Size(236, 24);

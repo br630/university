@@ -17,7 +17,6 @@ namespace university {
             MySqlTransaction^ transaction = conn->BeginTransaction();
 
             try {
-                // Hash the password before storing
                 String^ hashedPassword = PasswordHasher::HashPassword(txtPassword->Text);
 
                 String^ userQuery = "INSERT INTO users (firstName, lastName, email, password, role) "
@@ -30,14 +29,12 @@ namespace university {
                 userCmd->Parameters->AddWithValue("@firstName", txtFirstName->Text);
                 userCmd->Parameters->AddWithValue("@lastName", txtLastName->Text);
                 userCmd->Parameters->AddWithValue("@email", txtEmail->Text);
-                userCmd->Parameters->AddWithValue("@password", hashedPassword); ;
+                userCmd->Parameters->AddWithValue("@password", hashedPassword);
 
-                // Get the inserted user ID
                 int userID = Convert::ToInt32(userCmd->ExecuteScalar());
 
-                // Now insert into students table
-                String^ studentQuery = "INSERT INTO students (userID, dateOfBirth, major, enrollmentDate) "
-                    "VALUES (@userID, @dateOfBirth, @major, @enrollmentDate)";
+                String^ studentQuery = "INSERT INTO students (userID, dateOfBirth, major, enrollmentDate, currentYR) "
+                    "VALUES (@userID, @dateOfBirth, @major, @enrollmentDate, @currentYR)";
 
                 MySqlCommand^ studentCmd = gcnew MySqlCommand(studentQuery, conn);
                 studentCmd->Transaction = transaction;
@@ -46,22 +43,10 @@ namespace university {
                 studentCmd->Parameters->AddWithValue("@dateOfBirth", datePickerDOB->Value);
                 studentCmd->Parameters->AddWithValue("@major", comboMajor->Text);
                 studentCmd->Parameters->AddWithValue("@enrollmentDate", DateTime::Now);
+                studentCmd->Parameters->AddWithValue("@currentYR", comboCurrentYear->Text);
 
                 studentCmd->ExecuteNonQuery();
 
-                // Now insert into currentYR table
-                String^ currentYearQuery = "INSERT INTO currentYR (userID, currentYear) "
-                    "VALUES (@userID, @currentYear)";
-
-                MySqlCommand^ currentYearCmd = gcnew MySqlCommand(currentYearQuery, conn);
-                currentYearCmd->Transaction = transaction;
-
-                currentYearCmd->Parameters->AddWithValue("@userID", userID);
-                currentYearCmd->Parameters->AddWithValue("@currentYear", comboCurrentYear->Text);
-
-                currentYearCmd->ExecuteNonQuery();
-
-                // If we got here, everything worked - commit the transaction
                 transaction->Commit();
 
                 MessageBox::Show("Student registered successfully!", "Success",
@@ -70,7 +55,6 @@ namespace university {
                 ClearForm();
             }
             catch (Exception^ ex) {
-                // Something went wrong - rollback the transaction
                 transaction->Rollback();
                 throw ex;
             }
@@ -83,6 +67,7 @@ namespace university {
                 MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
     }
+
 
     System::Void Register_User::comboMajor_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
         btnRegister->Enabled = comboMajor->SelectedIndex != 0;
