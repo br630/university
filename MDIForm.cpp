@@ -32,9 +32,16 @@ namespace university {
 	}
 
 	System::Void MDIForm::viewGradesToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		View_Grade^ frmView = gcnew View_Grade();
+		Student^ currentStudent = Student::GetInstance();
+		View_Grade^ frmView = gcnew View_Grade(currentStudent->GetStudentID());
 		frmView->MdiParent = this;
 		frmView->Show();
+	}
+
+	System::Void MDIForm:: generateReportToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		Generate_Report^ frmReport = gcnew Generate_Report();
+		frmReport->MdiParent = this;
+		frmReport->Show();
 	}
 
 	System::Void MDIForm::manageProfileToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -68,6 +75,8 @@ namespace university {
 		frmEnroll->MdiParent = this;
 		frmEnroll->Show();
 	}
+
+
 
 	System::Void MDIForm::viewAllUsersToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		View_All_Students^ frmUsers = gcnew View_All_Students();

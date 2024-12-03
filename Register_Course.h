@@ -42,6 +42,7 @@ namespace university {
         void LoadCurrentEnrollments();
         bool HasCompletedPrerequisites(int courseId);
         bool IsAlreadyEnrolled(int courseId);
+        bool ShowPrerequisites(int courseId, String^ courseName);
         void RegisterForCourse(int courseId, String^ courseName);
 
         // Event handlers

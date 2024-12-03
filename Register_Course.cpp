@@ -147,6 +147,71 @@ namespace university {
         }
     }
 
+    bool Register_Course::ShowPrerequisites(int courseId, String^ courseName) {
+        MySqlDataReader^ reader = nullptr;
+        try {
+            DatabaseManager^ dbManager = DatabaseManager::GetInstance();
+            MySqlConnection^ conn = dbManager->GetConnection();
+            dbManager->ConnectToDatabase();
+
+            String^ sql = "SELECT c.courseName, CASE "
+                "WHEN e.Status = 'Completed' AND e.Grade >= 50 THEN 'Completed' "
+                "ELSE 'Not Completed' "
+                "END as CompletionStatus "
+                "FROM course_prerequisites cp "
+                "INNER JOIN courses c ON cp.prerequisiteID = c.courseID "
+                "LEFT JOIN enrollments_new e ON e.courseID = cp.prerequisiteID "
+                "AND e.studentID = @studentId "
+                "WHERE cp.courseID = @courseId";
+
+            MySqlCommand^ cmd = gcnew MySqlCommand(sql, conn);
+            cmd->Parameters->AddWithValue("@courseId", courseId);
+            cmd->Parameters->AddWithValue("@studentId", studentId);
+
+            reader = cmd->ExecuteReader();
+
+            String^ prerequisites = "";
+            bool hasPrerequisites = false;
+            bool allCompleted = true;
+
+            while (reader->Read()) {
+                hasPrerequisites = true;
+                String^ prereqName = reader->GetString("courseName");
+                String^ status = reader->GetString("CompletionStatus");
+                prerequisites += "\n- " + prereqName + " (" + status + ")";
+
+                if (status != "Completed") {
+                    allCompleted = false;
+                }
+            }
+
+            if (hasPrerequisites) {
+                String^ message = "Prerequisites for " + courseName + ":" + prerequisites;
+                if (!allCompleted) {
+                    message += "\n\nYou must complete all prerequisites before enrolling in this course.";
+                    MessageBox::Show(message, "Prerequisites Required", MessageBoxButtons::OK, MessageBoxIcon::Information);
+                    return false;
+                }
+                else {
+                    message += "\n\nAll prerequisites completed. Proceed with enrollment?";
+                    if  (MessageBox::Show(message, "Prerequisites Check", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes) {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            return true; // No prerequisites found
+        }
+        catch (Exception^ ex) {
+            MessageBox::Show("Error checking prerequisites: " + ex->Message);
+            return false;
+        }
+        finally {
+            if (reader != nullptr) reader->Close();
+            DatabaseManager::GetInstance()->CloseConnection();
+        }
+    }
+
     void Register_Course::RegisterForCourse(int courseId, String^ courseName) {
         if (String::IsNullOrEmpty(comboBox1->Text)) {
             MessageBox::Show("Please select a semester first.");
@@ -159,9 +224,9 @@ namespace university {
                 return;
             }
 
-            if (!HasCompletedPrerequisites(courseId)) {
-                MessageBox::Show("You must complete all prerequisites before enrolling in this course.");
-                return;
+            // Check prerequisites first
+            if (!ShowPrerequisites(courseId, courseName)) {
+                return; // Exit if prerequisites not met or user cancels
             }
 
             DatabaseManager^ dbManager = DatabaseManager::GetInstance();
