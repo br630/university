@@ -91,15 +91,7 @@ namespace university {
                         currentFaculty->SetRole(role);
                         currentFaculty->SetFacultyID(facultyID);
                         currentFaculty->SetDepartment(reader["department"]->ToString());
-
-
-                       
-                        if (!reader->IsDBNull(reader->GetOrdinal("dateOfAppointment"))) {
-                            currentFaculty->SetDateOfAppointment(Convert::ToDateTime(reader["dateOfAppointment"]));
-                        }
-                        else {
-                            currentFaculty->SetDateOfAppointment(DateTime::MinValue);
-                        }
+                        // currentFaculty->SetDateOfAppointment(Convert::ToDateTime(reader["dateOfAppointment"]));
 
                         MessageBox::Show("Welcome Faculty " + currentFaculty->GetFullName() + "!", "Success",
                             MessageBoxButtons::OK, MessageBoxIcon::Information);
