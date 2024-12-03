@@ -72,47 +72,44 @@ namespace university {
             // 
             // menuStrip1
             // 
-            this->menuStrip1->GripMargin = System::Windows::Forms::Padding(2, 2, 0, 2);
             this->menuStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
             this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->homeToolStripMenuItem });
             this->menuStrip1->Location = System::Drawing::Point(0, 0);
             this->menuStrip1->Name = L"menuStrip1";
-            this->menuStrip1->Padding = System::Windows::Forms::Padding(7, 2, 0, 2);
-            this->menuStrip1->Size = System::Drawing::Size(982, 33);
+            this->menuStrip1->Padding = System::Windows::Forms::Padding(6, 2, 0, 2);
+            this->menuStrip1->Size = System::Drawing::Size(873, 28);
             this->menuStrip1->TabIndex = 0;
             // 
             // homeToolStripMenuItem
             // 
             this->homeToolStripMenuItem->Name = L"homeToolStripMenuItem";
-            this->homeToolStripMenuItem->Size = System::Drawing::Size(77, 29);
+            this->homeToolStripMenuItem->Size = System::Drawing::Size(64, 24);
             this->homeToolStripMenuItem->Text = L"Home";
             // 
             // groupBoxGradeStats
             // 
             this->groupBoxGradeStats->Controls->Add(this->lblCurrentGPA);
             this->groupBoxGradeStats->Controls->Add(this->lblTotalCredits);
-            this->groupBoxGradeStats->Location = System::Drawing::Point(22, 65);
-            this->groupBoxGradeStats->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->groupBoxGradeStats->Location = System::Drawing::Point(20, 52);
             this->groupBoxGradeStats->Name = L"groupBoxGradeStats";
-            this->groupBoxGradeStats->Padding = System::Windows::Forms::Padding(3, 4, 3, 4);
-            this->groupBoxGradeStats->Size = System::Drawing::Size(342, 143);
+            this->groupBoxGradeStats->Size = System::Drawing::Size(304, 114);
             this->groupBoxGradeStats->TabIndex = 2;
             this->groupBoxGradeStats->TabStop = false;
             this->groupBoxGradeStats->Text = L"Academic Statistics";
             // 
             // lblCurrentGPA
             // 
-            this->lblCurrentGPA->Location = System::Drawing::Point(11, 38);
+            this->lblCurrentGPA->Location = System::Drawing::Point(10, 30);
             this->lblCurrentGPA->Name = L"lblCurrentGPA";
-            this->lblCurrentGPA->Size = System::Drawing::Size(225, 25);
+            this->lblCurrentGPA->Size = System::Drawing::Size(200, 20);
             this->lblCurrentGPA->TabIndex = 0;
             this->lblCurrentGPA->Text = L"Current GPA: 0.00";
             // 
             // lblTotalCredits
             // 
-            this->lblTotalCredits->Location = System::Drawing::Point(11, 75);
+            this->lblTotalCredits->Location = System::Drawing::Point(10, 60);
             this->lblTotalCredits->Name = L"lblTotalCredits";
-            this->lblTotalCredits->Size = System::Drawing::Size(225, 25);
+            this->lblTotalCredits->Size = System::Drawing::Size(200, 20);
             this->lblTotalCredits->TabIndex = 1;
             this->lblTotalCredits->Text = L"Total Credits: 0";
             // 
@@ -122,10 +119,9 @@ namespace university {
                 L"Fall 2024", L"Spring 2024", L"Fall 2023",
                     L"Spring 2023"
             });
-            this->comboGradeSemester->Location = System::Drawing::Point(22, 309);
-            this->comboGradeSemester->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->comboGradeSemester->Location = System::Drawing::Point(20, 247);
             this->comboGradeSemester->Name = L"comboGradeSemester";
-            this->comboGradeSemester->Size = System::Drawing::Size(224, 28);
+            this->comboGradeSemester->Size = System::Drawing::Size(200, 24);
             this->comboGradeSemester->TabIndex = 3;
             this->comboGradeSemester->SelectedIndexChanged += gcnew System::EventHandler(this, &View_Grade::comboGradeSemester_SelectedIndexChanged);
             // 
@@ -133,8 +129,7 @@ namespace university {
             // 
             chartArea1->Name = L"ChartArea1";
             this->chartGradeProgress->ChartAreas->Add(chartArea1);
-            this->chartGradeProgress->Location = System::Drawing::Point(405, 65);
-            this->chartGradeProgress->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->chartGradeProgress->Location = System::Drawing::Point(360, 52);
             this->chartGradeProgress->Name = L"chartGradeProgress";
             series1->ChartArea = L"ChartArea1";
             series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Line;
@@ -148,36 +143,35 @@ namespace university {
             series1->Points->Add(dataPoint3);
             series1->Points->Add(dataPoint4);
             this->chartGradeProgress->Series->Add(series1);
-            this->chartGradeProgress->Size = System::Drawing::Size(542, 285);
+            this->chartGradeProgress->Size = System::Drawing::Size(460, 185);
             this->chartGradeProgress->TabIndex = 4;
+            this->chartGradeProgress->Click += gcnew System::EventHandler(this, &View_Grade::chartGradeProgress_Click);
             // 
             // gridDetailedGrades
             // 
             this->gridDetailedGrades->AllowUserToAddRows = false;
             this->gridDetailedGrades->ColumnHeadersHeight = 34;
-            this->gridDetailedGrades->Location = System::Drawing::Point(22, 373);
-            this->gridDetailedGrades->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->gridDetailedGrades->Location = System::Drawing::Point(20, 298);
             this->gridDetailedGrades->Name = L"gridDetailedGrades";
             this->gridDetailedGrades->ReadOnly = true;
             this->gridDetailedGrades->RowHeadersWidth = 62;
-            this->gridDetailedGrades->Size = System::Drawing::Size(900, 227);
+            this->gridDetailedGrades->Size = System::Drawing::Size(800, 182);
             this->gridDetailedGrades->TabIndex = 5;
             // 
             // btnExportGrades
             // 
-            this->btnExportGrades->Location = System::Drawing::Point(788, 238);
-            this->btnExportGrades->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
+            this->btnExportGrades->Location = System::Drawing::Point(700, 243);
             this->btnExportGrades->Name = L"btnExportGrades";
-            this->btnExportGrades->Size = System::Drawing::Size(135, 38);
+            this->btnExportGrades->Size = System::Drawing::Size(120, 30);
             this->btnExportGrades->TabIndex = 6;
             this->btnExportGrades->Text = L"Export Grades";
             this->btnExportGrades->Click += gcnew System::EventHandler(this, &View_Grade::btnExportGrades_Click);
             // 
             // View_Grade
             // 
-            this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
+            this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-            this->ClientSize = System::Drawing::Size(982, 625);
+            this->ClientSize = System::Drawing::Size(873, 500);
             this->Controls->Add(this->menuStrip1);
             this->Controls->Add(this->groupBoxGradeStats);
             this->Controls->Add(this->comboGradeSemester);
@@ -186,10 +180,9 @@ namespace university {
             this->Controls->Add(this->btnExportGrades);
             this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
             this->MainMenuStrip = this->menuStrip1;
-            this->Margin = System::Windows::Forms::Padding(3, 4, 3, 4);
             this->MaximizeBox = false;
             this->MinimizeBox = false;
-            this->MinimumSize = System::Drawing::Size(965, 661);
+            this->MinimumSize = System::Drawing::Size(860, 538);
             this->Name = L"View_Grade";
             this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
             this->Text = L"View Grades";
@@ -260,5 +253,7 @@ namespace university {
                 }
             }
         }
+private: System::Void chartGradeProgress_Click(System::Object^ sender, System::EventArgs^ e) {
+}
 };
 }

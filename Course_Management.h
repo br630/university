@@ -61,9 +61,13 @@ namespace university {
         System::Windows::Forms::CheckBox^ chkAvailability;
         System::Windows::Forms::ListBox^ listPrerequisites;
         System::Windows::Forms::Label^ lblPrerequisites;
-        System::Windows::Forms::ComboBox^ comboPrerequisites;
+        System::Windows::Forms::Label^ lblYear;
+        System::Windows::Forms::ComboBox^ comboYear;
+
         System::Windows::Forms::Button^ btnAddPrerequisite;
-        System::Windows::Forms::Button^ btnRemovePrerequisite;
+    private: System::Windows::Forms::ComboBox^ comboPrerequisites;
+
+           System::Windows::Forms::Button^ btnRemovePrerequisite;
 
         // Helper methods
         void SetupDataGridView();
@@ -77,8 +81,7 @@ namespace university {
         System::Void btnAddPrerequisite_Click(System::Object^ sender, System::EventArgs^ e);
         System::Void btnRemovePrerequisite_Click(System::Object^ sender, System::EventArgs^ e);
 
-        // Event handlers
-// Event handlers - only declarations
+        // Event handler
         System::Void Course_Management_Load(System::Object^ sender, System::EventArgs^ e);
         System::Void btnAdd_Click(System::Object^ sender, System::EventArgs^ e);
         System::Void btnUpdate_Click(System::Object^ sender, System::EventArgs^ e);
@@ -109,6 +112,8 @@ namespace university {
             this->btnUpdate = (gcnew System::Windows::Forms::Button());
             this->btnDelete = (gcnew System::Windows::Forms::Button());
             this->btnClear = (gcnew System::Windows::Forms::Button());
+            this->lblYear = (gcnew System::Windows::Forms::Label());
+            this->comboYear = (gcnew System::Windows::Forms::ComboBox());
             this->txtSearch = (gcnew System::Windows::Forms::TextBox());
             this->btnSearch = (gcnew System::Windows::Forms::Button());
             this->dataGridCourses = (gcnew System::Windows::Forms::DataGridView());
@@ -139,9 +144,11 @@ namespace university {
             this->groupBoxCourseDetails->Controls->Add(this->btnUpdate);
             this->groupBoxCourseDetails->Controls->Add(this->btnDelete);
             this->groupBoxCourseDetails->Controls->Add(this->btnClear);
+            this->groupBoxCourseDetails->Controls->Add(this->lblYear);
+            this->groupBoxCourseDetails->Controls->Add(this->comboYear);
             this->groupBoxCourseDetails->Location = System::Drawing::Point(16, 54);
             this->groupBoxCourseDetails->Name = L"groupBoxCourseDetails";
-            this->groupBoxCourseDetails->Size = System::Drawing::Size(533, 550);
+            this->groupBoxCourseDetails->Size = System::Drawing::Size(533, 593);
             this->groupBoxCourseDetails->TabIndex = 0;
             this->groupBoxCourseDetails->TabStop = false;
             this->groupBoxCourseDetails->Text = L"Course Details";
@@ -149,7 +156,7 @@ namespace university {
             // 
             // lblCourseID
             // 
-            this->lblCourseID->Location = System::Drawing::Point(49, 168);
+            this->lblCourseID->Location = System::Drawing::Point(49, 123);
             this->lblCourseID->Name = L"lblCourseID";
             this->lblCourseID->Size = System::Drawing::Size(118, 22);
             this->lblCourseID->TabIndex = 0;
@@ -157,7 +164,7 @@ namespace university {
             // 
             // txtCourseID
             // 
-            this->txtCourseID->Location = System::Drawing::Point(167, 166);
+            this->txtCourseID->Location = System::Drawing::Point(167, 121);
             this->txtCourseID->Name = L"txtCourseID";
             this->txtCourseID->ReadOnly = true;
             this->txtCourseID->Size = System::Drawing::Size(236, 22);
@@ -165,7 +172,7 @@ namespace university {
             // 
             // lblCourseName
             // 
-            this->lblCourseName->Location = System::Drawing::Point(49, 198);
+            this->lblCourseName->Location = System::Drawing::Point(49, 153);
             this->lblCourseName->Name = L"lblCourseName";
             this->lblCourseName->Size = System::Drawing::Size(118, 22);
             this->lblCourseName->TabIndex = 2;
@@ -173,14 +180,14 @@ namespace university {
             // 
             // txtCourseName
             // 
-            this->txtCourseName->Location = System::Drawing::Point(167, 194);
+            this->txtCourseName->Location = System::Drawing::Point(167, 149);
             this->txtCourseName->Name = L"txtCourseName";
             this->txtCourseName->Size = System::Drawing::Size(236, 22);
             this->txtCourseName->TabIndex = 3;
             // 
             // lblCredits
             // 
-            this->lblCredits->Location = System::Drawing::Point(49, 226);
+            this->lblCredits->Location = System::Drawing::Point(49, 181);
             this->lblCredits->Name = L"lblCredits";
             this->lblCredits->Size = System::Drawing::Size(118, 22);
             this->lblCredits->TabIndex = 4;
@@ -188,7 +195,7 @@ namespace university {
             // 
             // numCredits
             // 
-            this->numCredits->Location = System::Drawing::Point(167, 224);
+            this->numCredits->Location = System::Drawing::Point(167, 179);
             this->numCredits->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 6, 0, 0, 0 });
             this->numCredits->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
             this->numCredits->Name = L"numCredits";
@@ -198,7 +205,7 @@ namespace university {
             // 
             // lblSemester
             // 
-            this->lblSemester->Location = System::Drawing::Point(49, 257);
+            this->lblSemester->Location = System::Drawing::Point(49, 212);
             this->lblSemester->Name = L"lblSemester";
             this->lblSemester->Size = System::Drawing::Size(118, 22);
             this->lblSemester->TabIndex = 6;
@@ -207,14 +214,14 @@ namespace university {
             // comboSemester
             // 
             this->comboSemester->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->comboSemester->Location = System::Drawing::Point(167, 254);
+            this->comboSemester->Location = System::Drawing::Point(167, 209);
             this->comboSemester->Name = L"comboSemester";
             this->comboSemester->Size = System::Drawing::Size(236, 24);
             this->comboSemester->TabIndex = 7;
             // 
             // lblDepartment
             // 
-            this->lblDepartment->Location = System::Drawing::Point(49, 287);
+            this->lblDepartment->Location = System::Drawing::Point(49, 242);
             this->lblDepartment->Name = L"lblDepartment";
             this->lblDepartment->Size = System::Drawing::Size(118, 22);
             this->lblDepartment->TabIndex = 8;
@@ -223,7 +230,7 @@ namespace university {
             // comboDepartment
             // 
             this->comboDepartment->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->comboDepartment->Location = System::Drawing::Point(167, 284);
+            this->comboDepartment->Location = System::Drawing::Point(167, 239);
             this->comboDepartment->Name = L"comboDepartment";
             this->comboDepartment->Size = System::Drawing::Size(236, 24);
             this->comboDepartment->TabIndex = 9;
@@ -232,7 +239,7 @@ namespace university {
             // 
             this->chkAvailability->Checked = true;
             this->chkAvailability->CheckState = System::Windows::Forms::CheckState::Checked;
-            this->chkAvailability->Location = System::Drawing::Point(167, 314);
+            this->chkAvailability->Location = System::Drawing::Point(167, 326);
             this->chkAvailability->Name = L"chkAvailability";
             this->chkAvailability->Size = System::Drawing::Size(100, 24);
             this->chkAvailability->TabIndex = 10;
@@ -240,7 +247,7 @@ namespace university {
             // 
             // lblPrerequisites
             // 
-            this->lblPrerequisites->Location = System::Drawing::Point(49, 344);
+            this->lblPrerequisites->Location = System::Drawing::Point(49, 356);
             this->lblPrerequisites->Name = L"lblPrerequisites";
             this->lblPrerequisites->Size = System::Drawing::Size(118, 22);
             this->lblPrerequisites->TabIndex = 11;
@@ -249,7 +256,7 @@ namespace university {
             // listPrerequisites
             // 
             this->listPrerequisites->ItemHeight = 16;
-            this->listPrerequisites->Location = System::Drawing::Point(167, 344);
+            this->listPrerequisites->Location = System::Drawing::Point(167, 356);
             this->listPrerequisites->Name = L"listPrerequisites";
             this->listPrerequisites->Size = System::Drawing::Size(236, 100);
             this->listPrerequisites->TabIndex = 12;
@@ -257,14 +264,14 @@ namespace university {
             // comboPrerequisites
             // 
             this->comboPrerequisites->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->comboPrerequisites->Location = System::Drawing::Point(167, 454);
+            this->comboPrerequisites->Location = System::Drawing::Point(167, 466);
             this->comboPrerequisites->Name = L"comboPrerequisites";
             this->comboPrerequisites->Size = System::Drawing::Size(236, 24);
             this->comboPrerequisites->TabIndex = 13;
             // 
             // btnAddPrerequisite
             // 
-            this->btnAddPrerequisite->Location = System::Drawing::Point(413, 454);
+            this->btnAddPrerequisite->Location = System::Drawing::Point(413, 466);
             this->btnAddPrerequisite->Name = L"btnAddPrerequisite";
             this->btnAddPrerequisite->Size = System::Drawing::Size(80, 24);
             this->btnAddPrerequisite->TabIndex = 14;
@@ -273,7 +280,7 @@ namespace university {
             // 
             // btnRemovePrerequisite
             // 
-            this->btnRemovePrerequisite->Location = System::Drawing::Point(413, 344);
+            this->btnRemovePrerequisite->Location = System::Drawing::Point(413, 356);
             this->btnRemovePrerequisite->Name = L"btnRemovePrerequisite";
             this->btnRemovePrerequisite->Size = System::Drawing::Size(80, 24);
             this->btnRemovePrerequisite->TabIndex = 15;
@@ -282,7 +289,7 @@ namespace university {
             // 
             // btnAdd
             // 
-            this->btnAdd->Location = System::Drawing::Point(23, 490);
+            this->btnAdd->Location = System::Drawing::Point(67, 531);
             this->btnAdd->Name = L"btnAdd";
             this->btnAdd->Size = System::Drawing::Size(95, 30);
             this->btnAdd->TabIndex = 16;
@@ -291,7 +298,7 @@ namespace university {
             // 
             // btnUpdate
             // 
-            this->btnUpdate->Location = System::Drawing::Point(130, 490);
+            this->btnUpdate->Location = System::Drawing::Point(174, 531);
             this->btnUpdate->Name = L"btnUpdate";
             this->btnUpdate->Size = System::Drawing::Size(95, 30);
             this->btnUpdate->TabIndex = 17;
@@ -300,7 +307,7 @@ namespace university {
             // 
             // btnDelete
             // 
-            this->btnDelete->Location = System::Drawing::Point(236, 490);
+            this->btnDelete->Location = System::Drawing::Point(280, 531);
             this->btnDelete->Name = L"btnDelete";
             this->btnDelete->Size = System::Drawing::Size(95, 30);
             this->btnDelete->TabIndex = 18;
@@ -309,12 +316,30 @@ namespace university {
             // 
             // btnClear
             // 
-            this->btnClear->Location = System::Drawing::Point(343, 490);
+            this->btnClear->Location = System::Drawing::Point(387, 531);
             this->btnClear->Name = L"btnClear";
             this->btnClear->Size = System::Drawing::Size(95, 30);
             this->btnClear->TabIndex = 19;
             this->btnClear->Text = L"Clear";
             this->btnClear->Click += gcnew System::EventHandler(this, &Course_Management::btnClear_Click);
+            // 
+            // lblYear
+            // 
+            this->lblYear->Location = System::Drawing::Point(43, 287);
+            this->lblYear->Name = L"lblYear";
+            this->lblYear->Size = System::Drawing::Size(118, 22);
+            this->lblYear->TabIndex = 8;
+            this->lblYear->Text = L"Year:";
+            // 
+            // comboYear
+            // 
+            this->comboYear->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->comboYear->FormattingEnabled = true;
+            this->comboYear->Items->AddRange(gcnew cli::array< System::Object^  >(4) { L"Year 1", L"Year 2", L"Year 3", L"Year 4" });
+            this->comboYear->Location = System::Drawing::Point(167, 284);
+            this->comboYear->Name = L"comboYear";
+            this->comboYear->Size = System::Drawing::Size(236, 24);
+            this->comboYear->TabIndex = 9;
             // 
             // txtSearch
             // 

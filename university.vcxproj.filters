@@ -66,6 +66,9 @@
     <ClCompile Include="Manage_Department.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Manage_Enrollments.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Signup.h">
@@ -126,6 +129,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Manage_Department.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Manage_Enrollments.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

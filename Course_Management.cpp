@@ -37,6 +37,7 @@ namespace university {
         comboSemester->SelectedIndex = 0;
         chkAvailability->Checked = true;
         comboDepartment->SelectedIndex = 0;
+        comboYear->SelectedIndex = 0;
     }
 
     System::Void Course_Management::btnClear_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -178,7 +179,7 @@ namespace university {
             DatabaseManager^ dbManager = DatabaseManager::GetInstance();
             MySqlConnection^ conn = dbManager->GetConnection();
 
-            String^ query = "SELECT c.*, d.DepartmentName, "
+            String^ query = "SELECT c.*, d.DepartmentName, c.course_yr, "
                 "(SELECT GROUP_CONCAT(p.courseName) FROM course_prerequisites cp "
                 "JOIN courses p ON cp.prerequisiteID = p.courseID "
                 "WHERE cp.courseID = c.courseID) as prerequisites "
@@ -288,8 +289,8 @@ namespace university {
             MySqlTransaction^ transaction = conn->BeginTransaction();
 
             try {
-                String^ query = "INSERT INTO courses (courseName, credits, semester, DepartmentID, availability) "
-                    "VALUES (@name, @credits, @semester, @deptId, @available); SELECT LAST_INSERT_ID();";
+                String^ query = "INSERT INTO courses (courseName, credits, semester, DepartmentID, availability, course_yr) "
+                    "VALUES (@name, @credits, @semester, @deptId, @available, @year)";
 
                 MySqlCommand^ cmd = gcnew MySqlCommand(query, conn);
                 cmd->Transaction = transaction;
@@ -300,6 +301,7 @@ namespace university {
                 cmd->Parameters->AddWithValue("@semester", comboSemester->Text);
                 cmd->Parameters->AddWithValue("@deptId", Convert::ToInt32(selectedDept->Value));
                 cmd->Parameters->AddWithValue("@available", chkAvailability->Checked);
+                cmd->Parameters->AddWithValue("@year", comboYear->Text);
 
                 int courseId = Convert::ToInt32(cmd->ExecuteScalar());
 
@@ -355,7 +357,7 @@ namespace university {
             try {
                 // Update course details
                 String^ query = "UPDATE courses SET courseName=@name, credits=@credits, "
-                    "semester=@semester, DepartmentID=@deptId, availability=@available "
+                    "semester=@semester, DepartmentID=@deptId, availability=@available, course_yr=@year "
                     "WHERE courseID=@id";
 
                 MySqlCommand^ cmd = gcnew MySqlCommand(query, conn);
@@ -368,6 +370,7 @@ namespace university {
                 cmd->Parameters->AddWithValue("@semester", comboSemester->Text);
                 cmd->Parameters->AddWithValue("@deptId", Convert::ToInt32(selectedDept->Value));
                 cmd->Parameters->AddWithValue("@available", chkAvailability->Checked);
+                cmd->Parameters->AddWithValue("@year", comboYear->Text);
 
                 cmd->ExecuteNonQuery();
 
@@ -511,6 +514,7 @@ namespace university {
             numCredits->Value = Convert::ToDecimal(dataGridCourses->Rows[e->RowIndex]->Cells["Credits"]->Value);
             comboSemester->Text = dataGridCourses->Rows[e->RowIndex]->Cells["Semester"]->Value->ToString();
             chkAvailability->Checked = dataGridCourses->Rows[e->RowIndex]->Cells["Available"]->Value->ToString() == "Yes";
+            comboYear->Text = dataGridCourses->Rows[e->RowIndex]->Cells["Year"]->Value->ToString();
 
             String^ deptName = dataGridCourses->Rows[e->RowIndex]->Cells["Department"]->Value->ToString();
             for (int i = 0; i < comboDepartment->Items->Count; i++) {

@@ -48,6 +48,18 @@ namespace university {
 
                 studentCmd->ExecuteNonQuery();
 
+                // Now insert into currentYR table
+                String^ currentYearQuery = "INSERT INTO currentYR (userID, currentYear) "
+                    "VALUES (@userID, @currentYear)";
+
+                MySqlCommand^ currentYearCmd = gcnew MySqlCommand(currentYearQuery, conn);
+                currentYearCmd->Transaction = transaction;
+
+                currentYearCmd->Parameters->AddWithValue("@userID", userID);
+                currentYearCmd->Parameters->AddWithValue("@currentYear", comboCurrentYear->Text);
+
+                currentYearCmd->ExecuteNonQuery();
+
                 // If we got here, everything worked - commit the transaction
                 transaction->Commit();
 
@@ -70,6 +82,11 @@ namespace university {
                 MessageBoxButtons::OK, MessageBoxIcon::Error);
         }
     }
+
+    System::Void Register_User::comboMajor_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e) {
+        btnRegister->Enabled = comboMajor->SelectedIndex != 0;
+    }
+
 
     bool Register_User::ValidateInput() {
         // Check for empty fields

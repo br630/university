@@ -1,4 +1,6 @@
 #include "MDIForm.h"
+#include "student.h"
+#include "faculty.h"
 
 namespace university {
 	System::Void MDIForm:: registerFacultyToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -16,10 +18,19 @@ namespace university {
 
 
 	System::Void MDIForm::registerCoursesToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		Register_Course^ frmReg = gcnew Register_Course();
+		Student^ currentStudent = Student::GetInstance();
+		Register_Course^ frmReg = gcnew Register_Course(currentStudent->GetStudentID());
 		frmReg->MdiParent = this;
 		frmReg->Show();
 	}
+
+	System::Void MDIForm::manageEnrollmentsToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
+		Faculty^ currentFaculty = Faculty::GetInstance();
+		Manage_Enrollments^ frmEnroll = gcnew Manage_Enrollments(currentFaculty->GetFacultyID());
+		frmEnroll->MdiParent = this;
+		frmEnroll->Show();
+	}
+
 	System::Void MDIForm::viewGradesToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
 		View_Grade^ frmView = gcnew View_Grade();
 		frmView->MdiParent = this;
@@ -27,7 +38,8 @@ namespace university {
 	}
 
 	System::Void MDIForm::manageProfileToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		Manage_Profile^ frmMan = gcnew Manage_Profile();
+		Student^ currentStudent = Student::GetInstance();
+		Manage_Profile^ frmMan = gcnew Manage_Profile(currentStudent->GetStudentID());
 		frmMan->MdiParent = this;
 		frmMan->Show();
 	}

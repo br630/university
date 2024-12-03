@@ -131,6 +131,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Manage_Course_Materials.cpp" />
     <ClCompile Include="Manage_Department.cpp" />
+    <ClCompile Include="Manage_Enrollments.cpp" />
     <ClCompile Include="Manage_Profile.cpp" />
     <ClCompile Include="MDIForm.cpp" />
     <ClCompile Include="MyForm.cpp" />
@@ -163,6 +164,9 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Manage_Department.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
+    <ClInclude Include="Manage_Enrollments.h">
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Manage_Faculty.h">

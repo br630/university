@@ -73,7 +73,6 @@ namespace university {
         System::Void dataGridDepartments_CellClick(System::Object^ sender, DataGridViewCellEventArgs^ e);
 
         void InitializeComponent(void) {
-            this->components = gcnew System::ComponentModel::Container();
             this->groupBoxDepartmentDetails = (gcnew System::Windows::Forms::GroupBox());
             this->lblDepartmentID = (gcnew System::Windows::Forms::Label());
             this->txtDepartmentID = (gcnew System::Windows::Forms::TextBox());
@@ -90,19 +89,17 @@ namespace university {
             this->dataGridDepartments = (gcnew System::Windows::Forms::DataGridView());
             this->tabControlMembers = (gcnew System::Windows::Forms::TabControl());
             this->tabPageFaculty = (gcnew System::Windows::Forms::TabPage());
-            this->tabPageStudents = (gcnew System::Windows::Forms::TabPage());
             this->dataGridFaculty = (gcnew System::Windows::Forms::DataGridView());
+            this->tabPageStudents = (gcnew System::Windows::Forms::TabPage());
             this->dataGridStudents = (gcnew System::Windows::Forms::DataGridView());
-
             this->groupBoxDepartmentDetails->SuspendLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridDepartments))->BeginInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridFaculty))->BeginInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridStudents))->BeginInit();
             this->tabControlMembers->SuspendLayout();
             this->tabPageFaculty->SuspendLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridFaculty))->BeginInit();
             this->tabPageStudents->SuspendLayout();
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridStudents))->BeginInit();
             this->SuspendLayout();
-
             // 
             // groupBoxDepartmentDetails
             // 
@@ -120,116 +117,170 @@ namespace university {
             this->groupBoxDepartmentDetails->Name = L"groupBoxDepartmentDetails";
             this->groupBoxDepartmentDetails->Size = System::Drawing::Size(533, 417);
             this->groupBoxDepartmentDetails->TabIndex = 0;
+            this->groupBoxDepartmentDetails->TabStop = false;
             this->groupBoxDepartmentDetails->Text = L"Department Details";
-
             // 
-            // Department ID
+            // lblDepartmentID
             // 
             this->lblDepartmentID->Location = System::Drawing::Point(49, 168);
+            this->lblDepartmentID->Name = L"lblDepartmentID";
             this->lblDepartmentID->Size = System::Drawing::Size(118, 22);
+            this->lblDepartmentID->TabIndex = 0;
             this->lblDepartmentID->Text = L"Department ID:";
-
-            this->txtDepartmentID->Location = System::Drawing::Point(167, 166);
-            this->txtDepartmentID->Size = System::Drawing::Size(236, 22);
-            this->txtDepartmentID->ReadOnly = true;
-
             // 
-            // Department Name
+            // txtDepartmentID
+            // 
+            this->txtDepartmentID->Location = System::Drawing::Point(167, 166);
+            this->txtDepartmentID->Name = L"txtDepartmentID";
+            this->txtDepartmentID->ReadOnly = true;
+            this->txtDepartmentID->Size = System::Drawing::Size(236, 22);
+            this->txtDepartmentID->TabIndex = 1;
+            // 
+            // lblDepartmentName
             // 
             this->lblDepartmentName->Location = System::Drawing::Point(49, 198);
+            this->lblDepartmentName->Name = L"lblDepartmentName";
             this->lblDepartmentName->Size = System::Drawing::Size(118, 22);
+            this->lblDepartmentName->TabIndex = 2;
             this->lblDepartmentName->Text = L"Department Name:";
-
-            this->txtDepartmentName->Location = System::Drawing::Point(167, 194);
-            this->txtDepartmentName->Size = System::Drawing::Size(236, 22);
-
             // 
-            // Head of Department
+            // txtDepartmentName
+            // 
+            this->txtDepartmentName->Location = System::Drawing::Point(167, 194);
+            this->txtDepartmentName->Name = L"txtDepartmentName";
+            this->txtDepartmentName->Size = System::Drawing::Size(236, 22);
+            this->txtDepartmentName->TabIndex = 3;
+            // 
+            // lblHeadOfDepartment
             // 
             this->lblHeadOfDepartment->Location = System::Drawing::Point(49, 226);
+            this->lblHeadOfDepartment->Name = L"lblHeadOfDepartment";
             this->lblHeadOfDepartment->Size = System::Drawing::Size(118, 22);
+            this->lblHeadOfDepartment->TabIndex = 4;
             this->lblHeadOfDepartment->Text = L"Department Head:";
-
-            this->comboHeadOfDepartment->Location = System::Drawing::Point(167, 224);
-            this->comboHeadOfDepartment->Size = System::Drawing::Size(236, 24);
-            this->comboHeadOfDepartment->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-
             // 
-            // Buttons
+            // comboHeadOfDepartment
+            // 
+            this->comboHeadOfDepartment->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
+            this->comboHeadOfDepartment->Location = System::Drawing::Point(167, 224);
+            this->comboHeadOfDepartment->Name = L"comboHeadOfDepartment";
+            this->comboHeadOfDepartment->Size = System::Drawing::Size(236, 24);
+            this->comboHeadOfDepartment->TabIndex = 5;
+            // 
+            // btnAdd
             // 
             this->btnAdd->Location = System::Drawing::Point(49, 305);
+            this->btnAdd->Name = L"btnAdd";
             this->btnAdd->Size = System::Drawing::Size(95, 30);
+            this->btnAdd->TabIndex = 6;
             this->btnAdd->Text = L"Add";
-            this->btnAdd->Click += gcnew EventHandler(this, &Manage_Department::btnAdd_Click);
-
-            this->btnUpdate->Location = System::Drawing::Point(156, 305);
-            this->btnUpdate->Size = System::Drawing::Size(95, 30);
-            this->btnUpdate->Text = L"Update";
-            this->btnUpdate->Click += gcnew EventHandler(this, &Manage_Department::btnUpdate_Click);
-
-            this->btnDelete->Location = System::Drawing::Point(262, 305);
-            this->btnDelete->Size = System::Drawing::Size(95, 30);
-            this->btnDelete->Text = L"Delete";
-            this->btnDelete->Click += gcnew EventHandler(this, &Manage_Department::btnDelete_Click);
-
-            this->btnClear->Location = System::Drawing::Point(369, 305);
-            this->btnClear->Size = System::Drawing::Size(95, 30);
-            this->btnClear->Text = L"Clear";
-            this->btnClear->Click += gcnew EventHandler(this, &Manage_Department::btnClear_Click);
-
             // 
-            // Search controls
+            // btnUpdate
+            // 
+            this->btnUpdate->Location = System::Drawing::Point(156, 305);
+            this->btnUpdate->Name = L"btnUpdate";
+            this->btnUpdate->Size = System::Drawing::Size(95, 30);
+            this->btnUpdate->TabIndex = 7;
+            this->btnUpdate->Text = L"Update";
+            // 
+            // btnDelete
+            // 
+            this->btnDelete->Location = System::Drawing::Point(262, 305);
+            this->btnDelete->Name = L"btnDelete";
+            this->btnDelete->Size = System::Drawing::Size(95, 30);
+            this->btnDelete->TabIndex = 8;
+            this->btnDelete->Text = L"Delete";
+            // 
+            // btnClear
+            // 
+            this->btnClear->Location = System::Drawing::Point(369, 305);
+            this->btnClear->Name = L"btnClear";
+            this->btnClear->Size = System::Drawing::Size(95, 30);
+            this->btnClear->TabIndex = 9;
+            this->btnClear->Text = L"Clear";
+            // 
+            // txtSearch
             // 
             this->txtSearch->Location = System::Drawing::Point(1025, 25);
+            this->txtSearch->Name = L"txtSearch";
             this->txtSearch->Size = System::Drawing::Size(236, 22);
-
-            this->btnSearch->Location = System::Drawing::Point(1274, 24);
-            this->btnSearch->Size = System::Drawing::Size(95, 24);
-            this->btnSearch->Text = L"Search";
-            this->btnSearch->Click += gcnew EventHandler(this, &Manage_Department::btnSearch_Click);
-
+            this->txtSearch->TabIndex = 1;
             // 
-            // DataGridView for Departments
+            // btnSearch
+            // 
+            this->btnSearch->Location = System::Drawing::Point(1274, 24);
+            this->btnSearch->Name = L"btnSearch";
+            this->btnSearch->Size = System::Drawing::Size(95, 24);
+            this->btnSearch->TabIndex = 2;
+            this->btnSearch->Text = L"Search";
+            // 
+            // dataGridDepartments
             // 
             this->dataGridDepartments->AllowUserToAddRows = false;
             this->dataGridDepartments->AllowUserToDeleteRows = false;
+            this->dataGridDepartments->ColumnHeadersHeight = 29;
             this->dataGridDepartments->Location = System::Drawing::Point(611, 54);
             this->dataGridDepartments->MultiSelect = false;
             this->dataGridDepartments->Name = L"dataGridDepartments";
             this->dataGridDepartments->ReadOnly = true;
+            this->dataGridDepartments->RowHeadersWidth = 51;
             this->dataGridDepartments->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
             this->dataGridDepartments->Size = System::Drawing::Size(758, 394);
             this->dataGridDepartments->TabIndex = 3;
-            this->dataGridDepartments->CellClick += gcnew DataGridViewCellEventHandler(this, &Manage_Department::dataGridDepartments_CellClick);
-
             // 
-            // TabControl
+            // tabControlMembers
             // 
-            this->tabControlMembers->Location = System::Drawing::Point(16, 484);
-            this->tabControlMembers->Size = System::Drawing::Size(1353, 220);
             this->tabControlMembers->Controls->Add(this->tabPageFaculty);
             this->tabControlMembers->Controls->Add(this->tabPageStudents);
-
+            this->tabControlMembers->Location = System::Drawing::Point(16, 484);
+            this->tabControlMembers->Name = L"tabControlMembers";
+            this->tabControlMembers->SelectedIndex = 0;
+            this->tabControlMembers->Size = System::Drawing::Size(1353, 220);
+            this->tabControlMembers->TabIndex = 4;
             // 
-            // Faculty Tab
+            // tabPageFaculty
             // 
-            this->tabPageFaculty->Text = L"Faculty Members";
             this->tabPageFaculty->Controls->Add(this->dataGridFaculty);
-            this->dataGridFaculty->Dock = System::Windows::Forms::DockStyle::Fill;
+            this->tabPageFaculty->Location = System::Drawing::Point(4, 25);
+            this->tabPageFaculty->Name = L"tabPageFaculty";
+            this->tabPageFaculty->Size = System::Drawing::Size(1345, 191);
+            this->tabPageFaculty->TabIndex = 0;
+            this->tabPageFaculty->Text = L"Faculty Members";
+            // 
+            // dataGridFaculty
+            // 
             this->dataGridFaculty->AllowUserToAddRows = false;
+            this->dataGridFaculty->ColumnHeadersHeight = 29;
+            this->dataGridFaculty->Dock = System::Windows::Forms::DockStyle::Fill;
+            this->dataGridFaculty->Location = System::Drawing::Point(0, 0);
+            this->dataGridFaculty->Name = L"dataGridFaculty";
             this->dataGridFaculty->ReadOnly = true;
-
+            this->dataGridFaculty->RowHeadersWidth = 51;
+            this->dataGridFaculty->Size = System::Drawing::Size(1345, 191);
+            this->dataGridFaculty->TabIndex = 0;
             // 
-            // Students Tab
+            // tabPageStudents
             // 
-            this->tabPageStudents->Text = L"Students";
             this->tabPageStudents->Controls->Add(this->dataGridStudents);
-            this->dataGridStudents->Dock = System::Windows::Forms::DockStyle::Fill;
-            this->dataGridStudents->AllowUserToAddRows = false;
-            this->dataGridStudents->ReadOnly = true;
-
+            this->tabPageStudents->Location = System::Drawing::Point(4, 25);
+            this->tabPageStudents->Name = L"tabPageStudents";
+            this->tabPageStudents->Size = System::Drawing::Size(1345, 191);
+            this->tabPageStudents->TabIndex = 1;
+            this->tabPageStudents->Text = L"Students";
             // 
-            // Manage_Department Form
+            // dataGridStudents
+            // 
+            this->dataGridStudents->AllowUserToAddRows = false;
+            this->dataGridStudents->ColumnHeadersHeight = 29;
+            this->dataGridStudents->Dock = System::Windows::Forms::DockStyle::Fill;
+            this->dataGridStudents->Location = System::Drawing::Point(0, 0);
+            this->dataGridStudents->Name = L"dataGridStudents";
+            this->dataGridStudents->ReadOnly = true;
+            this->dataGridStudents->RowHeadersWidth = 51;
+            this->dataGridStudents->Size = System::Drawing::Size(1345, 191);
+            this->dataGridStudents->TabIndex = 0;
+            // 
+            // Manage_Department
             // 
             this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
             this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
@@ -241,20 +292,23 @@ namespace university {
             this->Controls->Add(this->tabControlMembers);
             this->MaximizeBox = false;
             this->MinimizeBox = false;
+            this->Name = L"Manage_Department";
             this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
             this->Text = L"Department Management";
-            this->Load += gcnew EventHandler(this, &Manage_Department::Form_Load);
-
+            this->Load += gcnew System::EventHandler(this, &Manage_Department::Manage_Department_Load);
             this->groupBoxDepartmentDetails->ResumeLayout(false);
             this->groupBoxDepartmentDetails->PerformLayout();
             (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridDepartments))->EndInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridFaculty))->EndInit();
-            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridStudents))->EndInit();
             this->tabControlMembers->ResumeLayout(false);
             this->tabPageFaculty->ResumeLayout(false);
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridFaculty))->EndInit();
             this->tabPageStudents->ResumeLayout(false);
+            (cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dataGridStudents))->EndInit();
             this->ResumeLayout(false);
             this->PerformLayout();
+
         }
-    };
+    private: System::Void Manage_Department_Load(System::Object^ sender, System::EventArgs^ e) {
+    }
+};
 }
