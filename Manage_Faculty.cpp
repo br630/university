@@ -1,5 +1,6 @@
 #include "Manage_Faculty.h"
 #include "db_conn.h"
+#include "PasswordHasher.h"
 
 namespace university {
     System::Void Manage_Faculty::Form_Load(System::Object^ sender, System::EventArgs^ e) {
@@ -93,6 +94,7 @@ namespace university {
         }
     }
 
+    // Modified Manage_Faculty.cpp (relevant parts)
     System::Void Manage_Faculty::btnAdd_Click(System::Object^ sender, System::EventArgs^ e) {
         try {
             if (!ValidateInput()) return;
@@ -104,6 +106,8 @@ namespace university {
             MySqlTransaction^ transaction = conn->BeginTransaction();
 
             try {
+                String^ hashedPassword = PasswordHasher::HashPassword(txtPassword->Text);
+
                 String^ userQuery = "INSERT INTO users (firstName, lastName, email, password, role) "
                     "VALUES (@firstName, @lastName, @email, @password, 'Faculty'); SELECT LAST_INSERT_ID();";
 
@@ -113,7 +117,7 @@ namespace university {
                 userCmd->Parameters->AddWithValue("@firstName", txtFirstName->Text);
                 userCmd->Parameters->AddWithValue("@lastName", txtLastName->Text);
                 userCmd->Parameters->AddWithValue("@email", txtEmail->Text);
-                userCmd->Parameters->AddWithValue("@password", txtPassword->Text);
+                userCmd->Parameters->AddWithValue("@password", hashedPassword);
 
                 int userID = Convert::ToInt32(userCmd->ExecuteScalar());
 

@@ -1,11 +1,11 @@
 #include "Register_User.h"
 #include "db_conn.h"
+#include "PasswordHasher.h"
 
 namespace university {
 
     System::Void Register_User::btnRegister_Click(System::Object^ sender, System::EventArgs^ e) {
         try {
-            // Validate input fields
             if (!ValidateInput()) {
                 return;
             }
@@ -14,11 +14,12 @@ namespace university {
             MySqlConnection^ conn = dbManager->GetConnection();
             dbManager->ConnectToDatabase();
 
-            // Start transaction
             MySqlTransaction^ transaction = conn->BeginTransaction();
 
             try {
-                // First insert into users table
+                // Hash the password before storing
+                String^ hashedPassword = PasswordHasher::HashPassword(txtPassword->Text);
+
                 String^ userQuery = "INSERT INTO users (firstName, lastName, email, password, role) "
                     "VALUES (@firstName, @lastName, @email, @password, 'Student'); "
                     "SELECT LAST_INSERT_ID();";
@@ -29,7 +30,7 @@ namespace university {
                 userCmd->Parameters->AddWithValue("@firstName", txtFirstName->Text);
                 userCmd->Parameters->AddWithValue("@lastName", txtLastName->Text);
                 userCmd->Parameters->AddWithValue("@email", txtEmail->Text);
-                userCmd->Parameters->AddWithValue("@password", txtPassword->Text);
+                userCmd->Parameters->AddWithValue("@password", hashedPassword); ;
 
                 // Get the inserted user ID
                 int userID = Convert::ToInt32(userCmd->ExecuteScalar());
