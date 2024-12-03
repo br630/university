@@ -128,6 +128,7 @@
     <ClCompile Include="Course_Management.cpp" />
     <ClCompile Include="Enrollment.cpp" />
     <ClCompile Include="Enter_Grade.cpp" />
+    <ClCompile Include="Generate_Report.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Manage_Course_Materials.cpp" />
     <ClCompile Include="Manage_Department.cpp" />
@@ -159,6 +160,9 @@
     </ClInclude>
     <ClInclude Include="faculty.h" />
     <ClInclude Include="admin.h" />
+    <ClInclude Include="Generate_Report.h">
+      <FileType>CppForm</FileType>
+    </ClInclude>
     <ClInclude Include="Main.h" />
     <ClInclude Include="Manage_Course_Materials.h">
       <FileType>CppForm</FileType>

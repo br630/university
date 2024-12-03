@@ -13,6 +13,8 @@
 #include "Manage_Faculty.h"
 #include "Manage_Department.h"
 #include "Manage_Enrollments.h"
+#include "View_Grade.h"
+#include "Generate_Report.h"
 
 namespace university {
 
@@ -163,6 +165,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ viewAllDepartmentsToolStripM
 			this->accessClassRostersToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->enterGradesToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->manageCourseMaterialsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
+			this->manageEnrollmentsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->adminToolStripMenuItem1 = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->viewAllStudentsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->registerStudentsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
@@ -171,7 +174,6 @@ private: System::Windows::Forms::ToolStripMenuItem^ viewAllDepartmentsToolStripM
 			this->generateReportToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->viewAllDepartmentsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1 = (gcnew System::Windows::Forms::MenuStrip());
-			this->manageEnrollmentsToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->menuStrip1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -189,28 +191,28 @@ private: System::Windows::Forms::ToolStripMenuItem^ viewAllDepartmentsToolStripM
 			// registerCoursesToolStripMenuItem
 			// 
 			this->registerCoursesToolStripMenuItem->Name = L"registerCoursesToolStripMenuItem";
-			this->registerCoursesToolStripMenuItem->Size = System::Drawing::Size(201, 26);
+			this->registerCoursesToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->registerCoursesToolStripMenuItem->Text = L"Register Courses";
 			this->registerCoursesToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::registerCoursesToolStripMenuItem_Click);
 			// 
 			// viewGradesToolStripMenuItem
 			// 
 			this->viewGradesToolStripMenuItem->Name = L"viewGradesToolStripMenuItem";
-			this->viewGradesToolStripMenuItem->Size = System::Drawing::Size(201, 26);
+			this->viewGradesToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->viewGradesToolStripMenuItem->Text = L"View Grades";
 			this->viewGradesToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::viewGradesToolStripMenuItem_Click);
 			// 
 			// manageProfileToolStripMenuItem
 			// 
 			this->manageProfileToolStripMenuItem->Name = L"manageProfileToolStripMenuItem";
-			this->manageProfileToolStripMenuItem->Size = System::Drawing::Size(201, 26);
+			this->manageProfileToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->manageProfileToolStripMenuItem->Text = L"Manage Profile";
 			this->manageProfileToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::manageProfileToolStripMenuItem_Click);
 			// 
 			// enrollmentToolStripMenuItem
 			// 
 			this->enrollmentToolStripMenuItem->Name = L"enrollmentToolStripMenuItem";
-			this->enrollmentToolStripMenuItem->Size = System::Drawing::Size(201, 26);
+			this->enrollmentToolStripMenuItem->Size = System::Drawing::Size(224, 26);
 			this->enrollmentToolStripMenuItem->Text = L"Enrollment";
 			this->enrollmentToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::enrollmentToolStripMenuItem_Click);
 			// 
@@ -244,6 +246,13 @@ private: System::Windows::Forms::ToolStripMenuItem^ viewAllDepartmentsToolStripM
 			this->manageCourseMaterialsToolStripMenuItem->Size = System::Drawing::Size(260, 26);
 			this->manageCourseMaterialsToolStripMenuItem->Text = L"Manage Course Materials";
 			this->manageCourseMaterialsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::manageCourseMaterialsToolStripMenuItem_Click);
+			// 
+			// manageEnrollmentsToolStripMenuItem
+			// 
+			this->manageEnrollmentsToolStripMenuItem->Name = L"manageEnrollmentsToolStripMenuItem";
+			this->manageEnrollmentsToolStripMenuItem->Size = System::Drawing::Size(260, 26);
+			this->manageEnrollmentsToolStripMenuItem->Text = L"Manage Enrollments";
+			this->manageEnrollmentsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::manageEnrollmentsToolStripMenuItem_Click);
 			// 
 			// adminToolStripMenuItem1
 			// 
@@ -289,6 +298,7 @@ private: System::Windows::Forms::ToolStripMenuItem^ viewAllDepartmentsToolStripM
 			this->generateReportToolStripMenuItem->Name = L"generateReportToolStripMenuItem";
 			this->generateReportToolStripMenuItem->Size = System::Drawing::Size(230, 26);
 			this->generateReportToolStripMenuItem->Text = L"Generate Report";
+			this->generateReportToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::generateReportToolStripMenuItem_Click);
 			// 
 			// viewAllDepartmentsToolStripMenuItem
 			// 
@@ -310,13 +320,6 @@ private: System::Windows::Forms::ToolStripMenuItem^ viewAllDepartmentsToolStripM
 			this->menuStrip1->Size = System::Drawing::Size(1065, 28);
 			this->menuStrip1->TabIndex = 1;
 			this->menuStrip1->Text = L"menuStrip1";
-			// 
-			// manageEnrollmentsToolStripMenuItem
-			// 
-			this->manageEnrollmentsToolStripMenuItem->Name = L"manageEnrollmentsToolStripMenuItem";
-			this->manageEnrollmentsToolStripMenuItem->Size = System::Drawing::Size(260, 26);
-			this->manageEnrollmentsToolStripMenuItem->Text = L"Manage Enrollments";
-			this->manageEnrollmentsToolStripMenuItem->Click += gcnew System::EventHandler(this, &MDIForm::manageEnrollmentsToolStripMenuItem_Click);
 			// 
 			// MDIForm
 			// 
@@ -373,5 +376,6 @@ private: System::Void registerStudentsToolStripMenuItem_Click(System::Object^ se
 private: System::Void registerFacultyToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void viewAllDepartmentsToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void manageEnrollmentsToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
+private: System::Void generateReportToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }
