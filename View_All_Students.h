@@ -1,4 +1,5 @@
 #pragma once
+using namespace System::IO;
 
 namespace university {
     using namespace System;
@@ -165,7 +166,7 @@ namespace university {
             this->btnExportUsers->Name = L"btnExportUsers";
             this->btnExportUsers->Size = System::Drawing::Size(115, 30);
             this->btnExportUsers->TabIndex = 4;
-            this->btnExportUsers->Text = L"Export to Excel";
+            this->btnExportUsers->Text = L"Export";
             this->btnExportUsers->UseVisualStyleBackColor = true;
             this->btnExportUsers->Click += gcnew System::EventHandler(this, &View_All_Students::btnExportUsers_Click);
             // 
@@ -326,17 +327,48 @@ namespace university {
 
         System::Void btnExportUsers_Click(System::Object^ sender, System::EventArgs^ e) {
             SaveFileDialog^ saveFileDialog1 = gcnew SaveFileDialog();
-            saveFileDialog1->Filter = "Excel Files (*.xlsx)|*.xlsx";
+            saveFileDialog1->Filter = "CSV Files (*.csv)|*.csv";
             saveFileDialog1->FilterIndex = 1;
             saveFileDialog1->RestoreDirectory = true;
 
             if (saveFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
                 try {
-                    // Here you would implement the actual Excel export
-                    MessageBox::Show("Exporting data to Excel: " + saveFileDialog1->FileName);
+                    StreamWriter^ sw = gcnew StreamWriter(saveFileDialog1->FileName);
+
+                    // Write Headers
+                    for (int i = 0; i < gridUsers->Columns->Count; i++) {
+                        sw->Write(gridUsers->Columns[i]->HeaderText);
+                        if (i < gridUsers->Columns->Count - 1) {
+                            sw->Write(",");
+                        }
+                    }
+                    sw->WriteLine();
+
+                    // Write Data
+                    for (int i = 0; i < gridUsers->Rows->Count; i++) {
+                        for (int j = 0; j < gridUsers->Columns->Count; j++) {
+                            if (gridUsers->Rows[i]->Cells[j]->Value != nullptr) {
+                                String^ value = gridUsers->Rows[i]->Cells[j]->Value->ToString();
+                                // If the value contains a comma, wrap it in quotes
+                                if (value->Contains(",")) {
+                                    value = "\"" + value + "\"";
+                                }
+                                sw->Write(value);
+                            }
+                            if (j < gridUsers->Columns->Count - 1) {
+                                sw->Write(",");
+                            }
+                        }
+                        sw->WriteLine();
+                    }
+
+                    sw->Close();
+                    MessageBox::Show("Data exported successfully!", "Success",
+                        MessageBoxButtons::OK, MessageBoxIcon::Information);
                 }
                 catch (Exception^ ex) {
-                    MessageBox::Show("Error exporting data: " + ex->Message);
+                    MessageBox::Show("Error exporting data: " + ex->Message, "Export Error",
+                        MessageBoxButtons::OK, MessageBoxIcon::Error);
                 }
             }
         }

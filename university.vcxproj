@@ -213,6 +213,9 @@
     <EmbeddedResource Include="Enter_Grade.resx">
       <DependentUpon>Enter_Grade.h</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Generate_Report.resx">
+      <DependentUpon>Generate_Report.h</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Manage_Course_Materials.resx">
       <DependentUpon>Manage_Course_Materials.h</DependentUpon>
     </EmbeddedResource>
