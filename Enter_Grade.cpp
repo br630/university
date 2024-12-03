@@ -209,14 +209,9 @@ namespace university {
             LoadStudentGrades();
         }
     }
-    System::Void Enter_Grade::btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
+    void Enter_Grade::btnSearch_Click(System::Object^ sender, System::EventArgs^ e) {
         try {
             String^ searchTerm = txtSearch->Text->Trim();
-            if (String::IsNullOrEmpty(searchTerm)) {
-                LoadStudentGrades();
-                return;
-            }
-
             String^ selectedCourse = comboCourses->SelectedItem->ToString();
             int courseID = Int32::Parse(selectedCourse->Split('-')[0]->Trim());
 
@@ -224,12 +219,14 @@ namespace university {
             dbManager->ConnectToDatabase();
             MySqlConnection^ conn = dbManager->GetConnection();
 
-            String^ userQuery = "SELECT u.userID, f.facultyID "
-                          "FROM users u "
-                          "INNER JOIN faculty f ON u.userID = f.userID "
-                          "WHERE u.role = 'Faculty' AND f.facultyID = @facultyID";
+            String^ query = "SELECT e.studentID, CONCAT(u.firstName, ' ', u.lastName) as studentName, "
+                "e.grade FROM enrollment e "
+                "INNER JOIN students s ON e.studentID = s.studentID "
+                "INNER JOIN users u ON s.userID = u.userID "
+                "WHERE e.courseID = @courseID AND e.semester = @semester "
+                "AND (u.firstName LIKE @search OR u.lastName LIKE @search OR e.studentID LIKE @search)";
 
-            MySqlCommand^ cmd = gcnew MySqlCommand(userQuery, conn);
+            MySqlCommand^ cmd = gcnew MySqlCommand(query, conn);
             cmd->Parameters->AddWithValue("@courseID", courseID);
             cmd->Parameters->AddWithValue("@semester", comboSemester->Text);
             cmd->Parameters->AddWithValue("@search", "%" + searchTerm + "%");

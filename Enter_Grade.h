@@ -358,5 +358,5 @@ namespace university {
     private: System::Void comboCourses_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e);
     private: System::Void comboSemester_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e);
     private: System::Void btnSearch_Click(System::Object^ sender, System::EventArgs^ e);
-    };
+};
 }
