@@ -89,21 +89,23 @@ namespace university {
             this->cmbSemester->Location = System::Drawing::Point(240, 20);
             this->cmbSemester->Size = System::Drawing::Size(150, 24);
             this->cmbSemester->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->cmbSemester->Items->AddRange(gcnew cli::array<System::Object^> {
-                "Semester 1",
-                    "Semester 2"
+
+            this->cmbSemester->Items->AddRange(gcnew cli::array<System::Object^>(2) {
+                L"Semester1",
+                    L"Semester2"
             });
+            
             // 
             // cmbYear
             // 
             this->cmbYear->Location = System::Drawing::Point(410, 20);
             this->cmbYear->Size = System::Drawing::Size(150, 24);
             this->cmbYear->DropDownStyle = System::Windows::Forms::ComboBoxStyle::DropDownList;
-            this->cmbYear->Items->AddRange(gcnew cli::array<System::Object^> {
-                "Year 1",
-                "Year 2",
-                "Year 3",
-                "Year 4"
+            this->cmbYear->Items->AddRange(gcnew cli::array<System::Object^>(4) {
+                L"Year1",
+                    L"Year2",
+                    L"Year3",
+                    L"Year4"
             });
             // 
             // txtSearch
@@ -188,8 +190,5 @@ namespace university {
             this->ResumeLayout(false);
             this->PerformLayout();
         }
-
-    private: System::Void Enter_Grade_Load(System::Object^ sender, System::EventArgs^ e) {
-    }
     };
 }

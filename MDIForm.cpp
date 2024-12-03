@@ -51,7 +51,8 @@ namespace university {
 	}
 
 	System::Void MDIForm::enterGradesToolStripMenuItem_Click(System::Object^ sender, System::EventArgs^ e) {
-		Enter_Grade^ frmEnter = gcnew Enter_Grade(currentFacultyID);
+		
+		Enter_Grade^ frmEnter = gcnew Enter_Grade();
 		frmEnter->MdiParent = this;
 		frmEnter->Show();
 	}

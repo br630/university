@@ -10,16 +10,6 @@ namespace university {
     using namespace System::Data::SqlClient;
 
     public ref class Register_Course : public System::Windows::Forms::Form {
-    private:
-        System::Windows::Forms::TextBox^ textBox1;
-        System::Windows::Forms::Label^ label1;
-        System::Windows::Forms::MenuStrip^ menuStrip1;
-        System::Windows::Forms::Label^ label2;
-        System::Windows::Forms::ComboBox^ comboBox1;
-        System::Windows::Forms::ComboBox^ comboBox2;
-        System::Windows::Forms::Label^ label3;
-        System::Windows::Forms::Label^ label4;
-
     public:
         Register_Course(int studentId) {
             InitializeComponent();
@@ -37,25 +27,28 @@ namespace university {
         int studentId;
         System::ComponentModel::Container^ components;
 
-        void LoadAvailableCourses();
-        void LoadCurrentEnrollments();
-        bool HasCompletedPrerequisites(int courseId);
-        bool IsAlreadyEnrolled(int courseId);  // Now checks for Pending status
-        void RegisterForCourse(int courseId, String^ courseName);
-
-        System::Void Register_Course_Load(System::Object^ sender, System::EventArgs^ e);
-        System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e);
-        System::Void comboBox1_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e);
-        System::Void Course_Button_Click(System::Object^ sender, System::EventArgs^ e);
-
+        // Form Controls - declare only once
         System::Windows::Forms::TextBox^ textBox1;
         System::Windows::Forms::Label^ label1;
         System::Windows::Forms::MenuStrip^ menuStrip1;
         System::Windows::Forms::Label^ label2;
         System::Windows::Forms::ComboBox^ comboBox1;
-        System::Windows::Forms::ComboBox^ comboBox2; // Year dropdown
+        System::Windows::Forms::ComboBox^ comboBox2;
         System::Windows::Forms::Label^ label3;
-        System::Windows::Forms::Label^ label4;  // Year label
+        System::Windows::Forms::Label^ label4;
+
+        // Method declarations
+        void LoadAvailableCourses();
+        void LoadCurrentEnrollments();
+        bool HasCompletedPrerequisites(int courseId);
+        bool IsAlreadyEnrolled(int courseId);
+        void RegisterForCourse(int courseId, String^ courseName);
+
+        // Event handlers
+        System::Void Register_Course_Load(System::Object^ sender, System::EventArgs^ e);
+        System::Void textBox1_TextChanged(System::Object^ sender, System::EventArgs^ e);
+        System::Void comboBox1_SelectedIndexChanged(System::Object^ sender, System::EventArgs^ e);
+        System::Void Course_Button_Click(System::Object^ sender, System::EventArgs^ e);
 
         void InitializeComponent(void) {
             this->textBox1 = (gcnew System::Windows::Forms::TextBox());
@@ -169,7 +162,6 @@ namespace university {
             this->Load += gcnew System::EventHandler(this, &Register_Course::Register_Course_Load);
             this->ResumeLayout(false);
             this->PerformLayout();
-
         }
     };
 }
