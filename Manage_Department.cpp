@@ -255,13 +255,11 @@ namespace university {
             ComboboxItem^ selectedHead = safe_cast<ComboboxItem^>(comboHeadOfDepartment->SelectedItem);
 
             cmd->Parameters->AddWithValue("@name", txtDepartmentName->Text);
+            cmd->Parameters->AddWithValue("@head", DBNull::Value);  // Default to NULL
 
-            // Fixed the type incompatibility issue
-            if (selectedHead->Value != "0") {
+            // Only set head if one is selected and it's not the default "-- Select --" option
+            if (selectedHead != nullptr && selectedHead->Value != "0") {
                 cmd->Parameters->AddWithValue("@head", Convert::ToInt32(selectedHead->Value));
-            }
-            else {
-                cmd->Parameters->AddWithValue("@head", DBNull::Value);
             }
 
             dbManager->ConnectToDatabase();
